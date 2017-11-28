@@ -1,0 +1,19 @@
+package torsete.logback;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * Created by Torsten on 28.11.2017.
+ */
+public class HelloWorld {
+    private final static Logger log = LoggerFactory.getLogger(HelloWorld.class);
+
+    public HelloWorld() {
+        log.info("Hello world");
+    }
+
+    public static void main(String... args) {
+        new HelloWorld();
+    }
+}
