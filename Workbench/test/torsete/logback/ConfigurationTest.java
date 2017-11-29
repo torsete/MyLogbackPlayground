@@ -8,10 +8,13 @@ import ch.qos.logback.core.util.StatusPrinter;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 
 import java.io.*;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 import java.util.Properties;
 
 /**
@@ -50,7 +53,8 @@ public class ConfigurationTest {
 
     @Test
     public void test1() {
-//        System.setProperty("gslog.filename", "gslog_" + new Date().getTime());
+        System.setProperty("gslog.filename", "test1");
+        System.setProperty("database", "xxx");
         System.setProperty("gslog.resource", getClass().getSimpleName() + "-logsettings.xml");
         refreshConfiguration();
         Logger log = LoggerFactory.getLogger(getClass());
@@ -66,7 +70,7 @@ public class ConfigurationTest {
 
     @Test
     public void test2() {
-        System.setProperty("gslog.filename", "gslog_" + new Date().getTime());
+        System.setProperty("gslog.filename", logFilename());
         System.setProperty("gslog.resource", getClass().getSimpleName() + "-logsettings.xml");
         refreshConfiguration();
 
@@ -81,7 +85,7 @@ public class ConfigurationTest {
 
     @Test
     public void test3() {
-        System.setProperty("gslog.filename", "gslog_" + new Date().getTime());
+        System.setProperty("gslog.filename", logFilename());
         new TestClass1().log("hello");
         new TestClass2().log("hello");
         new TestClass3().log("hello skal komme på logfil ");
@@ -132,6 +136,31 @@ public class ConfigurationTest {
 
     }
 
+    public void testMDC() {
+        Logger log = LoggerFactory.getLogger(getClass());
+
+        MDC.put("database", "xxx");
+
+
+    }
+
+    @Test
+    public void test7() {
+        System.setProperty("gslog.filename", "test7");
+        System.setProperty("database", "xxx");
+        refreshConfiguration();
+        Logger log = LoggerFactory.getLogger(getClass());
+
+        log.debug("log debug");
+        log.info("log info");
+        log.warn("log warn");
+        log.error("log error");
+        staticLog.debug("staticLog debug");
+        staticLog.info("staticLog info");
+        staticLog.warn("staticLog warn");
+        staticLog.error("staticLog error");
+    }
+
 
     private ConfigurationTest doLogging(Logger log, int number) {
         for (int i = 0; i < number; i++) {
@@ -150,12 +179,16 @@ public class ConfigurationTest {
         try {
             JoranConfigurator configurator = new JoranConfigurator();
             configurator.setContext(context);
+
             context.reset();
             configurator.doConfigure(mainWatchURL);
         } catch (JoranException je) {
             // StatusPrinter will handle this
         }
+        Map<String, String> copyOfPropertyMap = context.getCopyOfPropertyMap();
         StatusPrinter.printInCaseOfErrorsOrWarnings(context);
+
+
     }
 
     private ConfigurationTest pause(long millis) {
@@ -197,5 +230,13 @@ public class ConfigurationTest {
         }
         System.out.println(">" + new Date(dest.lastModified()) + " " + dest.getAbsolutePath());
         return this;
+    }
+
+    private String logFilename() {
+        return "gslog_" + timestamp() + "_";
+    }
+
+    private String timestamp() {
+        return new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss-SSS").format(new Date());
     }
 }

@@ -1,22 +1,60 @@
 <included>
-    <property name="LOGHOME" value="testlogs"/>
-    <property name="GSFILENAME" value="Default"/>
-    <property name="GSPATTERN" value="----->%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"/>
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder>
-            <pattern>${GSPATTERN}</pattern>
-        </encoder>
-    </appender>
-    <root level="INFO">
-        <appender-ref ref="STDOUT"/>
-    </root>
-
+    <property name="GSLOGHOME" value="testlogs"/>
+    <timestamp key="GSTIMESTAMP" datePattern="yyyy-MM-dd_HH-mm-ss-SSS"/>
     <if condition='isDefined("gslog.filename")'>
         <then>
             <property name="GSFILENAME" value='${gslog.filename}'/>
         </then>
     </if>
-    <property name="GSLOGFILENAME" value='${LOGHOME}/${GSFILENAME}'/>
+    <property name="GSDATABASE" value='${database:-Ukendt}'/>
+    <property name="GSLOGFILENAME" value='${GSLOGHOME}/${GSDATABASE}/${GSFILENAME}_${GSTIMESTAMP}'/>
+    <property name="GSPATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"/>
+
+    <appender name="GSCONSOLEAPPENDER" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${GSPATTERN}</pattern>
+        </encoder>
+    </appender>
+    <appender name="GSERRORCONSOLEAPPENDER" class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+        <encoder>
+            <pattern>${GSPATTERN}</pattern>
+        </encoder>
+    </appender>
+    <if condition='isDefined("GSFILENAME")'>
+        <then>
+            <appender name="GSFILEAPPENDER" class="ch.qos.logback.core.FileAppender">
+                <file>${GSLOGFILENAME}.out.log</file>
+                <encoder>
+                    <pattern>${GSPATTERN}</pattern>
+                </encoder>
+            </appender>
+            <appender name="GSERRORFILEAPPENDER" class="ch.qos.logback.core.FileAppender">
+                <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+                    <level>ERROR</level>
+                </filter>
+                <file>${GSLOGFILENAME}.err.log</file>
+                <encoder>
+                    <pattern>${GSPATTERN}</pattern>
+                </encoder>
+            </appender>
+            <root level="INFO">
+                <appender-ref ref="GSFILEAPPENDER"/>
+                <appender-ref ref="GSERRORFILEAPPENDER"/>
+            </root>
+        </then>
+        <else>
+            <root level="INFO">
+                <appender-ref ref="GSCONSOLEAPPENDER"/>
+                <appender-ref ref="GSERRORCONSOLEAPPENDER"/>
+            </root>
+        </else>
+
+
+    </if>
+
 
 </included>
 
