@@ -1,10 +1,5 @@
-<!-- Main entry for configuration og logback -->
+<!-- Main entry for configuration of logback -->
 <configuration scan="true" scanPeriod="500"> <!-- in millis -->
-    <include file="logback-common-default-settings.xml"/>
-    <!--<if condition='isDefined("gslog.filename")'>-->
-    <if condition='isDefined("gslog.resource")'>
-        <then>
-            <include resource='${gslog.resource}'/>
-        </then>
-    </if>
+    <include file="logback-common-prolog-settings.xml"/>
+    <include file="logback-common-epilog-settings.xml"/>
 </configuration>

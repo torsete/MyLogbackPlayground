@@ -1,0 +1,7 @@
+<included>
+    <if condition='isDefined("gslog.resource")'>
+        <then>
+            <include resource='${gslog.resource}'/>
+        </then>
+    </if>
+</included>
