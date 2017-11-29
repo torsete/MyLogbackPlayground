@@ -1,6 +1,12 @@
 <included>
     <property name="GSLOGHOME" value="testlogs"/>
-    <timestamp key="GSTIMESTAMP" datePattern="yyyy-MM-dd_HH-mm-ss-SSS"/>
+    <if condition='isDefined("GSTIMESTAMP")'>
+        <then>
+        </then>
+        <else>
+            <timestamp scope="context" key="GSTIMESTAMP" datePattern="yyyy-MM-dd_HH-mm-ss-SSS"/>
+        </else>
+    </if>
     <if condition='isDefined("gslog.filename")'>
         <then>
             <property name="GSFILENAME" value='${gslog.filename}'/>
@@ -51,8 +57,6 @@
                 <appender-ref ref="GSERRORCONSOLEAPPENDER"/>
             </root>
         </else>
-
-
     </if>
 
 

@@ -1,7 +1,7 @@
 <!-- Main entry for configuration of logback -->
 <configuration debug="false" scan='true' scanPeriod='50'> <!-- in millis -->
     <include file='logback-common-prolog-settings.xml'/>
-    <root level="INFO">
+    <root level="DEBUG">
         <appender-ref ref="GSCONSOLEAPPENDER"/>
         <appender-ref ref="GSERRORCONSOLEAPPENDER"/>
     </root>

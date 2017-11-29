@@ -14,7 +14,6 @@ import java.io.*;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Map;
 import java.util.Properties;
 
 /**
@@ -55,10 +54,9 @@ public class ConfigurationTest {
     public void test1() {
         System.setProperty("gslog.filename", "test1");
         System.setProperty("database", "xxx");
-        System.setProperty("gslog.resource", getClass().getSimpleName() + "-logsettings.xml");
-        refreshConfiguration();
+//        System.setProperty("gslog.resource", getClass().getSimpleName() + "-logsettings.xml");
         Logger log = LoggerFactory.getLogger(getClass());
-
+        refreshConfiguration(true);
         Properties properties = System.getProperties();
         log.debug("log debug");
         log.info("log info");
@@ -70,9 +68,8 @@ public class ConfigurationTest {
 
     @Test
     public void test2() {
-        System.setProperty("gslog.filename", logFilename());
+        System.setProperty("gslog.filename", "test2");
         System.setProperty("gslog.resource", getClass().getSimpleName() + "-logsettings.xml");
-        refreshConfiguration();
 
         new TestClass1().log("hello");
         new TestClass2().log("hello");
@@ -85,7 +82,7 @@ public class ConfigurationTest {
 
     @Test
     public void test3() {
-        System.setProperty("gslog.filename", logFilename());
+        System.setProperty("gslog.filename", "test2");
         new TestClass1().log("hello");
         new TestClass2().log("hello");
         new TestClass3().log("hello skal komme på logfil ");
@@ -101,7 +98,14 @@ public class ConfigurationTest {
         copyFile("temp", "test/logback-test.xml");
 
         System.setProperty("gslog.resource", getClass().getSimpleName() + "-logsettings.xml");
-        refreshConfiguration();
+        refreshConfiguration(false);
+
+        new TestClass1().log("hello");
+        new TestClass2().log("hello");
+        new TestClass3().log("hello må ikke komme på logfil ");
+        new TestClass3().logWarn("hello");
+
+        refreshConfiguration(false);
 
         new TestClass1().log("hello");
         new TestClass2().log("hello");
@@ -117,18 +121,19 @@ public class ConfigurationTest {
 
     @Test
     public void test4() {
+        System.setProperty("gslog.filename", "test4");
         Logger log = LoggerFactory.getLogger(getClass());
 
         doLogging(log, 10);
 
         System.setProperty("gslog.resource", getClass().getSimpleName() + "-logsettingsINFO.xml");
-        refreshConfiguration();
+        refreshConfiguration(false);
 
 
         doLogging(log, 10);
 
         System.setProperty("gslog.resource", getClass().getSimpleName() + "-logsettingsDEBUG.xml");
-        refreshConfiguration();
+        refreshConfiguration(false);
 
 
         doLogging(log, 10);
@@ -148,7 +153,7 @@ public class ConfigurationTest {
     public void test7() {
         System.setProperty("gslog.filename", "test7");
         System.setProperty("database", "xxx");
-        refreshConfiguration();
+        refreshConfiguration(true);
         Logger log = LoggerFactory.getLogger(getClass());
 
         log.debug("log debug");
@@ -168,24 +173,27 @@ public class ConfigurationTest {
             log.info("--->");
 //            staticLog.debug("=======================>");
 //            staticLog.info("===>");
-            pause(250);
+//            pause(250);
         }
         return this;
     }
 
-    private void refreshConfiguration() {
+    private void refreshConfiguration(boolean reset) {
         LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
+//        String gstimestamp = context.getProperty("GSTIMESTAMP");
+//        System.setProperty("GSTIMESTAMP", gstimestamp);
         URL mainWatchURL = ConfigurationWatchListUtil.getMainWatchURL(context);
         try {
             JoranConfigurator configurator = new JoranConfigurator();
             configurator.setContext(context);
+            if (reset) {
+                context.reset();
+            }
 
-            context.reset();
             configurator.doConfigure(mainWatchURL);
         } catch (JoranException je) {
             // StatusPrinter will handle this
         }
-        Map<String, String> copyOfPropertyMap = context.getCopyOfPropertyMap();
         StatusPrinter.printInCaseOfErrorsOrWarnings(context);
 
 
