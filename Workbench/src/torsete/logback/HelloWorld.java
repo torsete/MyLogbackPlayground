@@ -10,7 +10,8 @@ public class HelloWorld {
     private final static Logger log = LoggerFactory.getLogger(HelloWorld.class);
 
     public HelloWorld() {
-        log.info("Hello world");
+        log.debug("Hello debug");
+        log.info("Hello info");
     }
 
     public static void main(String... args) {

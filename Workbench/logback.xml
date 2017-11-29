@@ -1,0 +1,4 @@
+<!-- Main entry for configuration og logback -->
+<configuration scan="true" scanPeriod="500"> <!-- in millis -->
+    <include file="logback-common-default-settings.xml"/>
+</configuration>

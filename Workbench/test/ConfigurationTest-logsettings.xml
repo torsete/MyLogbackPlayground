@@ -1,0 +1,40 @@
+<included scan='true' scanPeriod='500'>
+    <root level="WARN">
+        <appender-ref ref="STDOUT"/>
+    </root>
+    <appender name="FILE1" class="ch.qos.logback.core.FileAppender">
+        <file>testFile1.log</file>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <logger name="torsete.logback.ConfigurationTest$TestClass1" level="debug">
+        <appender-ref ref="FILE1"/>
+    </logger>
+
+    <appender name="FILE2" class="ch.qos.logback.core.FileAppender">
+        <file>testFile2.log</file>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <logger name="torsete.logback.ConfigurationTest$TestClass2" level="debug">
+        <appender-ref ref="FILE2"/>
+    </logger>
+
+    <appender name="COMMON" class="ch.qos.logback.core.FileAppender">
+        <file>testCommon.log</file>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <!--<logger name="torsete.logback" level="warn">-->
+    <!--<appender-ref ref="COMMON"/>-->
+    <!--</logger>-->
+    <logger name="torsete.logback" level="warn">
+        <appender-ref ref="COMMON"/>
+    </logger>
+
+
+</included>
+
