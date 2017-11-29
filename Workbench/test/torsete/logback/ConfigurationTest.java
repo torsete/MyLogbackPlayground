@@ -3,13 +3,16 @@ package torsete.logback;
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.joran.JoranConfigurator;
 import ch.qos.logback.core.joran.spi.JoranException;
+import ch.qos.logback.core.joran.util.ConfigurationWatchListUtil;
 import ch.qos.logback.core.util.StatusPrinter;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
+import java.net.URL;
 import java.util.Date;
+import java.util.Properties;
 
 /**
  * Created by Torsten on 28.11.2017.
@@ -47,10 +50,12 @@ public class ConfigurationTest {
 
     @Test
     public void test1() {
+//        System.setProperty("gslog.filename", "gslog_" + new Date().getTime());
         System.setProperty("gslog.resource", getClass().getSimpleName() + "-logsettings.xml");
-        configure("test/logback-test.xml");
+        refreshConfiguration();
         Logger log = LoggerFactory.getLogger(getClass());
 
+        Properties properties = System.getProperties();
         log.debug("log debug");
         log.info("log info");
         log.warn("log warn");
@@ -61,8 +66,9 @@ public class ConfigurationTest {
 
     @Test
     public void test2() {
+        System.setProperty("gslog.filename", "gslog_" + new Date().getTime());
         System.setProperty("gslog.resource", getClass().getSimpleName() + "-logsettings.xml");
-        configure("test/logback-test.xml");
+        refreshConfiguration();
 
         new TestClass1().log("hello");
         new TestClass2().log("hello");
@@ -75,6 +81,7 @@ public class ConfigurationTest {
 
     @Test
     public void test3() {
+        System.setProperty("gslog.filename", "gslog_" + new Date().getTime());
         new TestClass1().log("hello");
         new TestClass2().log("hello");
         new TestClass3().log("hello skal komme på logfil ");
@@ -90,7 +97,7 @@ public class ConfigurationTest {
         copyFile("temp", "test/logback-test.xml");
 
         System.setProperty("gslog.resource", getClass().getSimpleName() + "-logsettings.xml");
-//        configure("test/logback-test.xml");
+        refreshConfiguration();
 
         new TestClass1().log("hello");
         new TestClass2().log("hello");
@@ -111,13 +118,13 @@ public class ConfigurationTest {
         doLogging(log, 10);
 
         System.setProperty("gslog.resource", getClass().getSimpleName() + "-logsettingsINFO.xml");
-        configure("test/logback-test.xml");
+        refreshConfiguration();
 
 
         doLogging(log, 10);
 
         System.setProperty("gslog.resource", getClass().getSimpleName() + "-logsettingsDEBUG.xml");
-        configure("test/logback-test.xml");
+        refreshConfiguration();
 
 
         doLogging(log, 10);
@@ -137,22 +144,18 @@ public class ConfigurationTest {
         return this;
     }
 
-    private void configure(String filename) {
-        // assume SLF4J is bound to logback in the current environment
+    private void refreshConfiguration() {
         LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
-
+        URL mainWatchURL = ConfigurationWatchListUtil.getMainWatchURL(context);
         try {
             JoranConfigurator configurator = new JoranConfigurator();
             configurator.setContext(context);
-            // Call context.reset() to clear any previous configuration, e.g. default
-            // configuration. For multi-step configuration, omit calling context.reset().
             context.reset();
-            configurator.doConfigure(filename);
+            configurator.doConfigure(mainWatchURL);
         } catch (JoranException je) {
             // StatusPrinter will handle this
         }
         StatusPrinter.printInCaseOfErrorsOrWarnings(context);
-//        StatusPrinter.print(context);
     }
 
     private ConfigurationTest pause(long millis) {

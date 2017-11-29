@@ -1,11 +1,25 @@
 <included>
-    <property name="LOGHOME" value="/logs"/>
+    <property name="LOGHOME" value="testlogs"/>
+    <property name="GSFILENAME" value="Default"/>
+    <property name="GSPATTERN" value="----->%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"/>
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+            <pattern>${GSPATTERN}</pattern>
         </encoder>
     </appender>
     <root level="INFO">
         <appender-ref ref="STDOUT"/>
     </root>
+
+    <if condition='isDefined("gslog.filename")'>
+        <then>
+            <property name="GSFILENAME" value='${gslog.filename}'/>
+        </then>
+    </if>
+    <property name="GSLOGFILENAME" value='${LOGHOME}/${GSFILENAME}'/>
+
 </included>
+
+
+
+

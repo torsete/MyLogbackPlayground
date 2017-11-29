@@ -1,4 +1,10 @@
 <!-- Main entry for configuration og logback -->
 <configuration scan="true" scanPeriod="500"> <!-- in millis -->
     <include file="logback-common-default-settings.xml"/>
+    <!--<if condition='isDefined("gslog.filename")'>-->
+    <if condition='isDefined("gslog.resource")'>
+        <then>
+            <include resource='${gslog.resource}'/>
+        </then>
+    </if>
 </configuration>

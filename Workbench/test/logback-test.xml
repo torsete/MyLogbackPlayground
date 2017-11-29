@@ -1,5 +1,5 @@
 <!-- Main entry for configuration og logback -->
-<configuration debug="true" scan='true' scanPeriod='50'> <!-- in millis -->
+<configuration debug="false" scan='true' scanPeriod='50'> <!-- in millis -->
     <include file='logback-common-default-settings.xml'/>
     <root level="DEBUG">
         <appender-ref ref="STDOUT"/>
