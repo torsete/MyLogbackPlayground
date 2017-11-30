@@ -9,32 +9,6 @@
     <orderEntry type="jdk" jdkName="1.8" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" scope="TEST" name="junit" level="application" />
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/../lib/logback" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="file://$MODULE_DIR$/../lib/logback" />
-        </SOURCES>
-        <jarDirectory url="file://$MODULE_DIR$/../lib/logback" recursive="false" />
-        <jarDirectory url="file://$MODULE_DIR$/../lib/logback" recursive="false" type="SOURCES" />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/../lib/slf4j" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="file://$MODULE_DIR$/../lib/slf4j" />
-        </SOURCES>
-        <jarDirectory url="file://$MODULE_DIR$/../lib/slf4j" recursive="false" />
-        <jarDirectory url="file://$MODULE_DIR$/../lib/slf4j" recursive="false" type="SOURCES" />
-      </library>
-    </orderEntry>
     <orderEntry type="library" name="lib" level="application" />
   </component>
 </module>
