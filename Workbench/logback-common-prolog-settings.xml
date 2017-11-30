@@ -1,5 +1,13 @@
 <included>
     <property name="gslog.pattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"/>
+    <property name="gslog.home" value="testlogs"/>
+    <property name="gslog.database" value="${gslog.database:-Generel}"/>
+    <property name="gslog.system" value="${gslog.system:-Ukendt}"/>
+    <property name="gslog.application" value="${gslog.application:-Ukendt}"/>
+    <property name="gslog.additionalFilename" value="${gslog.additionalFilename:- }"/>
+    <property name="gslog.user" value="${gslog.user:- }"/>
+    <property name="gslog.filename"
+              value='${gslog.home}/${gslog.database}/${gslog.system}/${gslog.user}_${gslog.application}_${gslog.database}_${gslog.system}_${gslog.additionalFilename}_${gslog.timestamp}'/>
 
     <appender name="gslog.consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
@@ -15,24 +23,16 @@
         </encoder>
     </appender>
 
-    <property name="gslog.home" value="testlogs"/>
     <if condition='!isDefined("gslog.timestamp")'>
         <then>
-             <root level="info">
+            <!--<timestamp scope="context" key="gslog.timestamp" datePattern="yyyy-MM-dd_HH-mm-ss-SSS"/>-->
+
+            <root level="info">
                 <appender-ref ref="gslog.consoleAppender"/>
                 <appender-ref ref="gslog.errorConsoleAppender"/>
             </root>
         </then>
         <else>
-            <property name="gslog.database" value="${gslog.database:-Generel}"/>
-            <property name="gslog.system" value="${gslog.system:-Ukendt}"/>
-            <property name="gslog.application" value="${gslog.application:-Ukendt}"/>
-            <property name="gslog.additionalFilename" value="${gslog.additionalFilename:- }"/>
-            <property name="gslog.user" value="${gslog.user:- }"/>
-
-            <property name="gslog.filename"
-                      value='${gslog.home}/${gslog.database}/${gslog.system}/${gslog.user}_${gslog.application}_${gslog.database}_${gslog.system}_${gslog.additionalFilename}_${gslog.timestamp}'/>
-
             <appender name="gslog.fileAppender" class="ch.qos.logback.core.FileAppender">
                 <file>${gslog.filename}.out.log</file>
                 <encoder>

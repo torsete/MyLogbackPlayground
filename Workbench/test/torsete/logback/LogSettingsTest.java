@@ -4,8 +4,6 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Properties;
-
 public class LogSettingsTest {
     private static Logger staticLog = LoggerFactory.getLogger(LogSettingsTest.class);
 
@@ -37,16 +35,25 @@ public class LogSettingsTest {
         }
     }
 
+
     @Test
-    public void test1() {
-        LogSettings settings = new LogSettings()
-                .setSystem("SYSTEM42")
-                .setApplication("TestccccApp")
-                .setAdditionalFilename("xxx")
-                .setDatabase("BB1")
-                .activate(true);
+    public void test2() {
 
         Logger log = LoggerFactory.getLogger(getClass());
+
+        log.debug("log debug initial");
+        log.info("log info initial");
+        log.warn("log warn initial");
+        log.error("log error initial");
+        staticLog.debug("staticLog debug initial");
+        staticLog.info("staticLog info initial");
+        staticLog.warn("staticLog warn initial");
+        staticLog.error("staticLog error initial");
+
+        new LogSettings(s -> s.setSystem("SystemXxx")
+                .setApplication("App42")
+                .setDatabase("BB1"));
+
         log.debug("log debug");
         log.info("log info");
         log.warn("log warn");
@@ -56,7 +63,7 @@ public class LogSettingsTest {
         staticLog.warn("staticLog warn");
         staticLog.error("staticLog error");
 
-        settings.setUser("USRxxx").activate(true);
+        new LogSettings(s->s.setUser("USRxxx"));
 
         log.debug("log debug");
         log.info("log info");

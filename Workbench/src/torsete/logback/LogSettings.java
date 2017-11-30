@@ -10,11 +10,18 @@ import org.slf4j.LoggerFactory;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.function.Consumer;
 
 public class LogSettings {
 
-    public LogSettings() {
+    LogSettings() {
         setTimestamp(new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss-SSS").format(new Date()));
+    }
+
+    public LogSettings(Consumer<LogSettings> consumer) {
+        this();
+        consumer.accept(this);
+        activate(true);
     }
 
     public LogSettings setDatabase(String database) {
@@ -66,8 +73,9 @@ public class LogSettings {
     }
 
 
-    public LogSettings activate(boolean reset) {
+    LogSettings activate(boolean reset) {
         LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
+//       setTimestamp(context.getProperty("gslog.timestamp"));
         URL mainWatchURL = ConfigurationWatchListUtil.getMainWatchURL(context);
         try {
             JoranConfigurator configurator = new JoranConfigurator();
