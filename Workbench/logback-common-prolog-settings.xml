@@ -1,60 +1,56 @@
 <included>
-    <property name="GSLOGHOME" value="testlogs"/>
-    <if condition='isDefined("GSTIMESTAMP")'>
-        <then>
-        </then>
-        <else>
-            <timestamp scope="context" key="GSTIMESTAMP" datePattern="yyyy-MM-dd_HH-mm-ss-SSS"/>
-        </else>
-    </if>
-    <if condition='isDefined("gslog.filename")'>
-        <then>
-            <property name="GSFILENAME" value='${gslog.filename}'/>
-        </then>
-    </if>
-    <property name="GSDATABASE" value='${database:-Ukendt}'/>
-    <property name="GSLOGFILENAME" value='${GSLOGHOME}/${GSDATABASE}/${GSFILENAME}_${GSTIMESTAMP}'/>
-    <property name="GSPATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"/>
+    <property name="gslog.pattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"/>
 
-    <appender name="GSCONSOLEAPPENDER" class="ch.qos.logback.core.ConsoleAppender">
+    <appender name="gslog.consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>${GSPATTERN}</pattern>
+            <pattern>${gslog.pattern}</pattern>
         </encoder>
     </appender>
-    <appender name="GSERRORCONSOLEAPPENDER" class="ch.qos.logback.core.ConsoleAppender">
+    <appender name="gslog.errorConsoleAppender" class="ch.qos.logback.core.ConsoleAppender">
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>ERROR</level>
+            <level>warn</level>
         </filter>
         <encoder>
-            <pattern>${GSPATTERN}</pattern>
+            <pattern>${gslog.pattern}</pattern>
         </encoder>
     </appender>
-    <if condition='isDefined("GSFILENAME")'>
+
+    <property name="gslog.home" value="testlogs"/>
+    <if condition='!isDefined("gslog.timestamp")'>
         <then>
-            <appender name="GSFILEAPPENDER" class="ch.qos.logback.core.FileAppender">
-                <file>${GSLOGFILENAME}.out.log</file>
-                <encoder>
-                    <pattern>${GSPATTERN}</pattern>
-                </encoder>
-            </appender>
-            <appender name="GSERRORFILEAPPENDER" class="ch.qos.logback.core.FileAppender">
-                <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-                    <level>ERROR</level>
-                </filter>
-                <file>${GSLOGFILENAME}.err.log</file>
-                <encoder>
-                    <pattern>${GSPATTERN}</pattern>
-                </encoder>
-            </appender>
-            <root level="INFO">
-                <appender-ref ref="GSFILEAPPENDER"/>
-                <appender-ref ref="GSERRORFILEAPPENDER"/>
+             <root level="info">
+                <appender-ref ref="gslog.consoleAppender"/>
+                <appender-ref ref="gslog.errorConsoleAppender"/>
             </root>
         </then>
         <else>
-            <root level="INFO">
-                <appender-ref ref="GSCONSOLEAPPENDER"/>
-                <appender-ref ref="GSERRORCONSOLEAPPENDER"/>
+            <property name="gslog.database" value="${gslog.database:-Generel}"/>
+            <property name="gslog.system" value="${gslog.system:-Ukendt}"/>
+            <property name="gslog.application" value="${gslog.application:-Ukendt}"/>
+            <property name="gslog.additionalFilename" value="${gslog.additionalFilename:- }"/>
+            <property name="gslog.user" value="${gslog.user:- }"/>
+
+            <property name="gslog.filename"
+                      value='${gslog.home}/${gslog.database}/${gslog.system}/${gslog.user}_${gslog.application}_${gslog.database}_${gslog.system}_${gslog.additionalFilename}_${gslog.timestamp}'/>
+
+            <appender name="gslog.fileAppender" class="ch.qos.logback.core.FileAppender">
+                <file>${gslog.filename}.out.log</file>
+                <encoder>
+                    <pattern>${gslog.pattern}</pattern>
+                </encoder>
+            </appender>
+            <appender name="gslog.errorFileAppender" class="ch.qos.logback.core.FileAppender">
+                <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+                    <level>warn</level>
+                </filter>
+                <file>${gslog.filename}.err.log</file>
+                <encoder>
+                    <pattern>${gslog.pattern}</pattern>
+                </encoder>
+            </appender>
+            <root level="info">
+                <appender-ref ref="gslog.fileAppender"/>
+                <appender-ref ref="gslog.errorFileAppender"/>
             </root>
         </else>
     </if>

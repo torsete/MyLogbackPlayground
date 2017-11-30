@@ -179,8 +179,10 @@ public class ConfigurationTest {
     }
 
     private void refreshConfiguration(boolean reset) {
+        LogSettings activate = new LogSettings().activate(true);
+        String timestamp = activate.getTimestamp();
         LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
-//        String gstimestamp = context.getProperty("GSTIMESTAMP");
+        String gstimestamp = context.getProperty("gslog.timestamp");
 //        System.setProperty("GSTIMESTAMP", gstimestamp);
         URL mainWatchURL = ConfigurationWatchListUtil.getMainWatchURL(context);
         try {

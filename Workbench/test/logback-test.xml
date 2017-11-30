@@ -1,9 +1,9 @@
 <!-- Main entry for configuration of logback -->
 <configuration debug="false" scan='true' scanPeriod='50'> <!-- in millis -->
     <include file='logback-common-prolog-settings.xml'/>
-    <root level="DEBUG">
-        <appender-ref ref="GSCONSOLEAPPENDER"/>
-        <appender-ref ref="GSERRORCONSOLEAPPENDER"/>
-    </root>
+    <!--<root level="DEBUG">-->
+        <!--<appender-ref ref="gslog.consoleAppender"/>-->
+        <!--<appender-ref ref="gslog.errorConsoleAppender"/>-->
+    <!--</root>-->
     <include file="logback-common-epilog-settings.xml"/>
 </configuration>
