@@ -1,0 +1,30 @@
+<included>
+    <property name="gslog.server" scope="system" value="${gslog.server:-_}"/>
+    <property name="gslog.home" scope="system" value="${gslog.home:-testlogs}"/>
+    <property name="gslog.environment" scope="system" value="${gslog.environment:-_}"/>
+    <property name="gslog.database" scope="system" value="${gslog.database:-_}"/>
+    <property name="gslog.system" scope="system" value="${gslog.system:-_}"/>
+    <property name="gslog.application" scope="system" value="${gslog.application:-_}"/>
+    <property name="gslog.additionalFilename" scope="system" value="${gslog.additionalFilename:-_}"/>
+    <property name="gslog.user" scope="system" value="${gslog.user:-_}"/>
+    <if condition='!isDefined("gslog.timestamp")'>
+        <then>
+            <timestamp scope="system" key="gslog.timestamp" datePattern="yyyy-MM-dd_HH-mm-ss-SSS"/>
+        </then>
+    </if>
+    <property name="gslog.folder" scope="system"
+              value='${gslog.server}${gslog.home}/${gslog.environment}/${gslog.database}/${gslog.system}'/>
+    <property name="gslog.filename" scope="system"
+              value='${gslog.user}-${gslog.application}-${gslog.database}-${gslog.system}-${gslog.additionalFilename}-${gslog.timestamp}'/>
+    <property name="gslog.absoluteFilename" scope="system" value='${gslog.folder}/${gslog.filename}'/>
+    <property name="gslog.filenameSuffix" scope="system" value='.out.log'/>
+    <property name="gslog.errorFilenameSuffix" scope="system" value='.err.log'/>
+
+    <property name="gslog.pattern" scope="system"
+              value="${gslog.pattern:-%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n}"/>
+
+</included>
+
+
+
+

@@ -1,0 +1,4 @@
+<!-- Main entry for configuration of logback -->
+<configuration scan="true" scanPeriod="500"> <!-- in millis -->
+    <include resource="logback-gs-file-logging.xml"/>
+</configuration>

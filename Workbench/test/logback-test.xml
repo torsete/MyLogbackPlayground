@@ -1,23 +1,14 @@
 <!-- Main entry for configuration of logback -->
 <configuration scan="true" scanPeriod="500"> <!-- in millis -->
-    <include resource="logback-default-test.xml"/>
-    <!--<include resource="logback-standard-properties.xml"/>-->
-    <!--<include resource="logback-standard-console-appenders.xml"/>-->
-    <!--<if condition='!isDefined("gslog.timestamp")'>-->
-        <!--<then>-->
-            <!--<timestamp scope="system" key="gslog.timestamp" datePattern="yyyy-MM-dd_HH-mm-ss-SSS"/>-->
-            <!--<root level="info">-->
-                <!--<appender-ref ref="gslog.consoleAppender"/>-->
-                <!--<appender-ref ref="gslog.errorConsoleAppender"/>-->
-            <!--</root>-->
-        <!--</then>-->
-        <!--<else>-->
-            <!--<include resource="logback-standard-file-appenders.xml"/>-->
-            <!--<root level="info">-->
-                <!--<appender-ref ref="gslog.fileAppender"/>-->
-                <!--<appender-ref ref="gslog.errorFileAppender"/>-->
-            <!--</root>-->
-        <!--</else>-->
-    <!--</if>-->
+    <if condition='!isDefined("gslog.started")'>
+        <then>
+            <property name="gslog.started" scope="system" value="yes"/>
+            <include resource="logback-gs-unittest-console-logging.xml"/>
+        </then>
+        <else>
+            <include resource="logback-gs-unittest-file-logging.xml"/>
+        </else>
+    </if>
+
 
 </configuration>

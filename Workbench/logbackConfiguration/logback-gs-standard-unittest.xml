@@ -1,7 +1,7 @@
 <!-- Entry for configuration of logback -->
 <included>
-    <include resource="logback-standard-properties.xml"/>
-    <include resource="logback-standard-console-appenders.xml"/>
+    <include resource="logback-gs-standard-properties.xml"/>
+    <include resource="logback-gs-standard-console-appenders.xml"/>
     <if condition='!isDefined("gslog.timestamp")'>
         <then>
             <timestamp scope="system" key="gslog.timestamp" datePattern="yyyy-MM-dd_HH-mm-ss-SSS"/>
@@ -11,7 +11,7 @@
             </root>
         </then>
         <else>
-            <include resource="logback-standard-file-appenders.xml"/>
+            <include resource="logback-gs-standard-file-appenders.xml"/>
             <root level="info">
                 <appender-ref ref="gslog.fileAppender"/>
                 <appender-ref ref="gslog.errorFileAppender"/>

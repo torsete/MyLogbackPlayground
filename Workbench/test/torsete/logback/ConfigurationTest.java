@@ -93,9 +93,9 @@ public class ConfigurationTest {
         log.info("log info");
         log.warn("log warn");
 
-        copyFile("test/logback-default-test.xml", "temp");
+        copyFile("test/logback-gs-standard-unittest.xml", "temp");
         pause(1000);
-        copyFile("temp", "test/logback-default-test.xml");
+        copyFile("temp", "test/logback-gs-standard-unittest.xml");
 
         System.setProperty("gslog.resource", getClass().getSimpleName() + "-logsettings.xml");
         refreshConfiguration(false);
@@ -179,7 +179,8 @@ public class ConfigurationTest {
     }
 
     private void refreshConfiguration(boolean reset) {
-        LogSettings activate = new LogSettings().activate(true);
+        LogSettings activate = LogSettings.activate(true, c -> {
+        });
         String timestamp = activate.getTimestamp();
         LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
         String gstimestamp = context.getProperty("gslog.timestamp");

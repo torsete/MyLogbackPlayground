@@ -2,7 +2,7 @@
     <property scope="system" name="gslog.timestamp" value="${gslog.timestamp}"/>
 
     <appender name="gslog.fileAppender" class="ch.qos.logback.core.FileAppender">
-        <file>${gslog.absoluteFilename}.out.log</file>
+        <file>${gslog.absoluteFilename}${gslog.filenameSuffix}</file>
         <encoder>
             <pattern>${gslog.pattern}</pattern>
         </encoder>
@@ -11,7 +11,7 @@
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>warn</level>
         </filter>
-        <file>${gslog.absoluteFilename}.err.log</file>
+        <file>${gslog.absoluteFilename}${gslog.errorFilenameSuffix}</file>
         <encoder>
             <pattern>${gslog.pattern}</pattern>
         </encoder>

@@ -41,29 +41,18 @@ public class LogSettingsTest {
 
         Logger log = LoggerFactory.getLogger(getClass());
 
-        log.debug("log debug initial");
-        log.info("log info initial");
-        log.warn("log warn initial");
-        log.error("log error initial");
-        staticLog.debug("staticLog debug initial");
-        staticLog.info("staticLog info initial");
-        staticLog.warn("staticLog warn initial");
-        staticLog.error("staticLog error initial");
+//        log.debug("log debug initial");
+//        log.info("log info initial");
+//        log.warn("log warn initial");
+//        log.error("log error initial");
+//        staticLog.debug("staticLog debug initial");
+//        staticLog.info("staticLog info initial");
+//        staticLog.warn("staticLog warn initial");
+//        staticLog.error("staticLog error initial");
 
-//        new LogSettings(s -> s.setSystem("SystemXxx")
-//                .setApplication("App42")
-//                .setDatabase("BB1"));
-
-        log.debug("log debug");
-        log.info("log info");
-        log.warn("log warn");
-        log.error("log error");
-        staticLog.debug("staticLog debug");
-        staticLog.info("staticLog info");
-        staticLog.warn("staticLog warn");
-        staticLog.error("staticLog error");
-
-        new LogSettings(s->s.setUser("USRxxx"));
+        LogSettings.activate(true, s -> s.setSystem("SystemXxx")
+                .setApplication("App42")
+                .setDatabase("BB1"));
 
         log.debug("log debug");
         log.info("log info");
@@ -73,7 +62,20 @@ public class LogSettingsTest {
         staticLog.info("staticLog info");
         staticLog.warn("staticLog warn");
         staticLog.error("staticLog error");
-    }  @Test
+
+        LogSettings.activate(true, s -> s.setUser("USRxxx"));
+
+        log.debug("log debug");
+        log.info("log info");
+        log.warn("log warn");
+        log.error("log error");
+        staticLog.debug("staticLog debug");
+        staticLog.info("staticLog info");
+        staticLog.warn("staticLog warn");
+        staticLog.error("staticLog error");
+    }
+
+    @Test
     public void test3() {
 
         Logger log = LoggerFactory.getLogger(getClass());
@@ -87,7 +89,11 @@ public class LogSettingsTest {
         staticLog.warn("staticLog warn initial");
         staticLog.error("staticLog error initial");
 
-        new LogSettings(s -> s.setSystem("SystemXxx")
+        LogSettings.activate(true, s -> s
+                .setServer("testlogserver/")
+                .setHome("logs/vX.XX")
+                .setEnvironment("K")
+                .setSystem("SystemXxx")
                 .setApplication("App42")
                 .setDatabase("ABk"));
 
@@ -100,7 +106,7 @@ public class LogSettingsTest {
         staticLog.warn("staticLog warn");
         staticLog.error("staticLog error");
 
-        new LogSettings(s->s.setUser("USRxxx"));
+        LogSettings.activate(true, s -> s.setUser("USRxxx"));
 
         log.debug("log debug");
         log.info("log info");
