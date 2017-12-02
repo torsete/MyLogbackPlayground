@@ -8,14 +8,12 @@ import ch.qos.logback.core.util.StatusPrinter;
 import org.slf4j.LoggerFactory;
 
 import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 public class LogSettings {
 
     LogSettings() {
-        setTimestamp(new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss-SSS").format(new Date()));
     }
 
     public LogSettings(Consumer<LogSettings> consumer) {
@@ -74,8 +72,8 @@ public class LogSettings {
 
 
     LogSettings activate(boolean reset) {
-        LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
-//       setTimestamp(context.getProperty("gslog.timestamp"));
+        LoggerContext  context = (LoggerContext) LoggerFactory.getILoggerFactory();
+        setTimestamp(getTimestamp());
         URL mainWatchURL = ConfigurationWatchListUtil.getMainWatchURL(context);
         try {
             JoranConfigurator configurator = new JoranConfigurator();
@@ -102,6 +100,18 @@ public class LogSettings {
 
     private String get(String name) {
         return System.getProperty(name);
+    }
+
+    public interface BiConsumerWithCatchException<T, U> extends BiConsumer<T, U> {
+        void acceptWithCatchExceptionx(T t, U u) throws Exception;
+
+        default void accept(T t, U u) {
+            try {
+                acceptWithCatchExceptionx(t, u);
+            } catch (Exception e) {
+                // StatusPrinter should handle this
+            }
+        }
     }
 
 }

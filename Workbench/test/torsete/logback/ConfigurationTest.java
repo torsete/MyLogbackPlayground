@@ -93,9 +93,9 @@ public class ConfigurationTest {
         log.info("log info");
         log.warn("log warn");
 
-        copyFile("test/logback-test.xml", "temp");
+        copyFile("test/logback-default-test.xml", "temp");
         pause(1000);
-        copyFile("temp", "test/logback-test.xml");
+        copyFile("temp", "test/logback-default-test.xml");
 
         System.setProperty("gslog.resource", getClass().getSimpleName() + "-logsettings.xml");
         refreshConfiguration(false);

@@ -1,0 +1,24 @@
+<included>
+    <property name="gslog.server" scope="system" value="${gslog.server:- }"/>
+    <property name="gslog.home" scope="system" value="${gslog.home:-testlogs}"/>
+    <property name="gslog.environment" scope="system" value="${gslog.environment:-Ukendt}"/>
+    <property name="gslog.database" scope="system" value="${gslog.database:-Generel}"/>
+    <property name="gslog.system" scope="system" value="${gslog.system:-Default}"/>
+    <property name="gslog.application" scope="system" value="${gslog.application:- }"/>
+    <property name="gslog.additionalFilename" scope="system" value="${gslog.additionalFilename:- }"/>
+    <property name="gslog.user" scope="system" value="${gslog.user:- }"/>
+    <property name="gslog.pattern" scope="system"
+              value="${gslog.pattern:-%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n}"/>
+
+    <property name="gslog.folder" scope="context"
+              value='${gslog.server}${gslog.home}/${gslog.environment}/${gslog.database}/${gslog.system}'/>
+    <property name="gslog.filename" scope="context"
+              value='${gslog.user}_${gslog.application}_${gslog.database}_${gslog.system}_${gslog.additionalFilename}_${gslog.timestamp}'/>
+    <property name="gslog.absoluteFilename" scope="context"
+              value='${gslog.folder}/${gslog.filename}'/>
+
+</included>
+
+
+
+
