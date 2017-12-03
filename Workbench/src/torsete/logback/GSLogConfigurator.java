@@ -12,7 +12,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.net.URL;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
 
 /**
  * Ansvar:
@@ -93,21 +92,9 @@ public class GSLogConfigurator {
     }
 
     GSLogConfigurator configure(boolean reset, Consumer<JoranConfigurator> configuratorConsumer) {
-        boolean wasInitial = logSettings.isInitial();
-        String newSettingsMessage = "New Settings: " + System.getProperties().entrySet().stream()
-                .filter(es -> es.getKey().toString().startsWith("gslog."))
-                .filter(es -> !es.getKey().toString().equals("gslog.folder"))
-                .filter(es -> !es.getKey().toString().equals("gslog.filename"))
-                .filter(es -> !es.getKey().toString().equals("gslog.absoluteFilename"))
-                .map(es -> es.getKey() + "=" + es.getValue()).collect(Collectors.joining("\n\t", "\n\t", ""));
-        log.info(newSettingsMessage);
-        log.error(newSettingsMessage);
-        String absoluteFilename = logSettings.getAbsoluteFilename();
-        String timestamp = logSettings.getTimestamp();
+        log.info("Log configuration is changing");
 
         LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
-        logSettings.setTimestamp(timestamp);
-        logSettings.setInitial(false);
         JoranConfigurator configurator = new JoranConfigurator();
         configurator.setContext(context);
         if (reset) {
@@ -116,13 +103,7 @@ public class GSLogConfigurator {
         configuratorConsumer.accept(configurator);
         StatusPrinter.printInCaseOfErrorsOrWarnings(context);
 
-        if (!wasInitial) {
-            String newAbsoluteFilename = logSettings.getAbsoluteFilename();
-            if (absoluteFilename != null || newAbsoluteFilename != null) {
-                log.info("Previous log: " + (absoluteFilename == null ? "Console" : absoluteFilename + logSettings.getFilenameSuffix()));
-                log.error("Previous log: " + (absoluteFilename == null ? "Console" : absoluteFilename + logSettings.getErrorFilenameSuffix()));
-            }
-        }
+        log.info("Log configuration has changed");
         return this;
     }
 

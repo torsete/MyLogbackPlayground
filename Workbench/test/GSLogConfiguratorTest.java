@@ -40,13 +40,13 @@ public class GSLogConfiguratorTest {
 
     @Test
     public void test() {
-//        log.info("test starter");
+        log.info("test starter");
         TestClass1 testClass1 = new TestClass1();
         TestClass2 testClass2 = new TestClass2();
         TestClass3 testClass3 = new TestClass3();
-//        testClass1.log("test1");
-//        testClass2.log("test2");
-//        testClass3.log("test3");
+        testClass1.log("test1");
+        testClass2.log("test2");
+        testClass3.log("test3");
         File file = createFile(
                 "<configuration>\n" +
                         "    <appender name='APPENDER1' class='ch.qos.logback.core.FileAppender'>\n" +
@@ -69,6 +69,33 @@ public class GSLogConfiguratorTest {
                         "    </logger>\n" +
                         "    <logger name='" + testClass3.getClass().getName() + "' level='debug'>\n" +
                         "        <appender-ref ref='APPENDER2'/>\n" +
+                        "    </logger>\n" +
+                        "</configuration>\n" +
+                        "");
+
+        new GSLogConfigurator()
+                .configure(false, file);
+
+        testClass1.log("test1");
+        testClass2.log("test2");
+        testClass3.log("test3");
+        log.info("test slutter");
+    }
+
+    @Test
+    public void test2() {
+        TestClass1 testClass1 = new TestClass1();
+        TestClass2 testClass2 = new TestClass2();
+        TestClass3 testClass3 = new TestClass3();
+        File file = createFile(
+                "<configuration>\n" +
+                        "    <include resource='logback-gs-standard-properties.xml'/>\n" +
+                        "    <include resource='logback-gs-standard-file-appenders.xml'/>\n" +
+                        "    <logger name='" + testClass1.getClass().getName() + "' level='debug'>\n" +
+                        "        <appender-ref ref='gslog.fileAppender'/>\n" +
+                        "    </logger>\n" +
+                        "    <logger name='" + testClass2.getClass().getName() + "' level='debug'>\n" +
+                        "        <appender-ref ref='gslog.fileAppender'/>\n" +
                         "    </logger>\n" +
                         "</configuration>\n" +
                         "");

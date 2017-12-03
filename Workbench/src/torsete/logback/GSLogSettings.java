@@ -113,13 +113,13 @@ public class GSLogSettings {
         return get("gslog.filenameSuffix");
     }
 
-    public boolean isInitial() {
-        return get("gslog.started") == null;
-    }
-
-    public GSLogSettings setInitial(boolean isInitial) {
-        return set("gslog.started", isInitial ? null : "no");
-    }
+//    public boolean isInitial() {
+//        return get("gslog.started") == null;
+//    }
+//
+//    public GSLogSettings setInitial(boolean isInitial) {
+//        return set("gslog.started", isInitial ? null : "no");
+//    }
 
     private GSLogSettings set(String name, String value) {
         if (value == null) {

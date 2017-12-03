@@ -33,7 +33,7 @@ public class LogConfigurationDemo {
 
         new GSLogConfigurator()
                 .acceptSettings(s -> s.setUser("USRxxx"))
-                .configure();
+                .configure(true);
 
         doSomeWork(2);
     }
@@ -48,13 +48,13 @@ public class LogConfigurationDemo {
                         .setSystem("mysystem")
                         .setApplication(getClass().getSimpleName())
                 )
-                .configure();
+                .configure(true);
 
         log.info("Brugernavn skal lige bestemmes... ");
 
         new GSLogConfigurator()
                 .acceptSettings(s -> s.setUser("USRxxx"))
-                .configure();
+                .configure(true);
 
         doSomeWork(2);
     }
