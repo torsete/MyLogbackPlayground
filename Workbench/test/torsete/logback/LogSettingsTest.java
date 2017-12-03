@@ -3,6 +3,9 @@ package torsete.logback;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import torsete.logback.drafts.LogSettings;
+
+import java.util.Date;
 
 public class LogSettingsTest {
     private static Logger staticLog = LoggerFactory.getLogger(LogSettingsTest.class);
@@ -97,6 +100,11 @@ public class LogSettingsTest {
                 .setApplication("App42")
                 .setDatabase("ABk"));
 
+        for (int i = 0; i < 10000; i++) {
+            log.debug("log debug");
+            log.info("log info " + new Date());
+            pause(1000);
+        }
         log.debug("log debug");
         log.info("log info");
         log.warn("log warn");
@@ -118,4 +126,15 @@ public class LogSettingsTest {
         staticLog.error("staticLog error");
     }
 
+
+    private void pause(long millis) {
+        try {
+            Thread.sleep(millis);
+            for (int n = 0; n < 50000; n++) {
+            }
+
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

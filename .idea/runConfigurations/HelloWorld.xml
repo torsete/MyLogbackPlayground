@@ -2,11 +2,11 @@
   <configuration default="false" name="HelloWorld" type="Application" factoryName="Application" nameIsGenerated="true">
     <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
       <pattern>
-        <option name="PATTERN" value="torsete.logback.*" />
+        <option name="PATTERN" value="torsete.logback.drafts.*" />
         <option name="ENABLED" value="true" />
       </pattern>
     </extension>
-    <option name="MAIN_CLASS_NAME" value="torsete.logback.HelloWorld" />
+    <option name="MAIN_CLASS_NAME" value="torsete.logback.drafts.HelloWorld" />
     <option name="VM_PARAMETERS" value="" />
     <option name="PROGRAM_PARAMETERS" value="" />
     <option name="WORKING_DIRECTORY" value="file://$MODULE_DIR$" />

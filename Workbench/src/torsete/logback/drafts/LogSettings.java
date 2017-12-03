@@ -1,4 +1,4 @@
-package torsete.logback;
+package torsete.logback.drafts;
 
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.joran.JoranConfigurator;
