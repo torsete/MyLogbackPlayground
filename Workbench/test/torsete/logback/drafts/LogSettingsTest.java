@@ -1,9 +1,8 @@
-package torsete.logback;
+package torsete.logback.drafts;
 
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import torsete.logback.drafts.LogSettings;
 
 import java.util.Date;
 

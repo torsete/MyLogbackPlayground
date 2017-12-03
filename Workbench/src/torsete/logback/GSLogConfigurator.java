@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.net.URL;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
@@ -65,6 +66,17 @@ public class GSLogConfigurator {
         Consumer<JoranConfigurator> configuratorConsumer = c -> {
             try {
                 c.doConfigure(file);
+            } catch (JoranException e) {
+                // StatusPrinter will handle this
+            }
+        };
+        return configure(reset, configuratorConsumer);
+    }
+
+    public GSLogConfigurator configure(boolean reset, FileInputStream fileInputStream) {
+        Consumer<JoranConfigurator> configuratorConsumer = c -> {
+            try {
+                c.doConfigure(fileInputStream);
             } catch (JoranException e) {
                 // StatusPrinter will handle this
             }

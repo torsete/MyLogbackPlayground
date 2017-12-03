@@ -1,4 +1,4 @@
-package torsete.logback;
+package torsete.logback.drafts;
 
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.joran.JoranConfigurator;
@@ -9,7 +9,6 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
-import torsete.logback.drafts.LogSettings;
 
 import java.io.*;
 import java.net.URL;

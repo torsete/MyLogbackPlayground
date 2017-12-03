@@ -1,7 +1,6 @@
-package torsete.logback;
+package torsete.logback.drafts;
 
 import org.junit.Test;
-import torsete.logback.drafts.HelloWorld;
 
 /**
  * Created by Torsten on 28.11.2017.

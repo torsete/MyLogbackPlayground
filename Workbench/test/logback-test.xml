@@ -1,15 +1,5 @@
 <!-- Main entry for configuration of logback -->
 <configuration scan="true" scanPeriod="500"> <!-- in millis -->
     <jmxConfigurator/>
-    <if condition='!isDefined("gslog.started")'>
-        <then>
-            <property name="gslog.started" scope="system" value="yes"/>
-            <include resource="logback-gs-unittest-console-logging.xml"/>
-        </then>
-        <else>
-            <include resource="logback-gs-unittest-file-logging.xml"/>
-        </else>
-    </if>
-
-
+    <include resource="logback-gs-unittest-console-logging.xml"/>
 </configuration>
