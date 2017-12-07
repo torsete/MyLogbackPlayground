@@ -1,7 +1,7 @@
 <!-- Entry for configuration of logback -->
 <included>
-    <include resource="logback-gs-standard-properties.xml"/>
-    <include resource="logback-gs-standard-file-appenders.xml"/>
+    <include file="${gslog.configurationFolder}/logback-gs-standard-properties.xml"/>
+    <include file="${gslog.configurationFolder}/logback-gs-standard-file-appenders.xml"/>
     <root level="info">
         <appender-ref ref="gslog.fileAppender"/>
         <appender-ref ref="gslog.errorFileAppender"/>

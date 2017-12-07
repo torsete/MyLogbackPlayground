@@ -1,6 +1,4 @@
-<!-- Main entry for configuration of logback -->
-<configuration scan="true" scanPeriod="500"> <!-- in millis -->
-    <jmxConfigurator/> <!-- VIGTIGT: JMXConfigurator skal stoppes manuelt i en webapp -->
-    <include resource="logback-gs-console-logging.xml"/>
-    <include resource="logback-gs-file-logging.xml"/>
+<configuration scan="true" scanPeriod="500" debug="true"> <!-- in millis -->
+    <property name="gslog.configurationFolder" scope="system" value="${gslog.configurationFolder:-Workbench/logbackConfiguration}"/>
+    <include file="${gslog.configurationFolder}/config.xml"/>
 </configuration>

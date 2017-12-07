@@ -6,10 +6,10 @@ import org.slf4j.LoggerFactory;
 /**
  * Ansvar: Facade til de settings vi kan bruge til Logback-konfiguration
  */
-public class GSLogSettings {
-    private final static Logger log = LoggerFactory.getLogger(GSLogSettings.class);
+public class GSLogbackSettings {
+    private final static Logger log = LoggerFactory.getLogger(GSLogbackSettings.class);
 
-    public GSLogSettings setDatabase(String database) {
+    public GSLogbackSettings setDatabase(String database) {
         return set("gslog.database", database);
     }
 
@@ -17,7 +17,7 @@ public class GSLogSettings {
         return get("gslog.database");
     }
 
-    public GSLogSettings setEnvironment(String environment) {
+    public GSLogbackSettings setEnvironment(String environment) {
         return set("gslog.environment", environment);
     }
 
@@ -25,7 +25,7 @@ public class GSLogSettings {
         return get("gslog.environment");
     }
 
-    public GSLogSettings setVersion(String version) {
+    public GSLogbackSettings setVersion(String version) {
         return set("gslog.version", version);
     }
 
@@ -33,7 +33,7 @@ public class GSLogSettings {
         return get("gslog.version");
     }
 
-    public GSLogSettings setApplication(String application) {
+    public GSLogbackSettings setApplication(String application) {
         return set("gslog.application", application);
     }
 
@@ -41,7 +41,7 @@ public class GSLogSettings {
         return get("gslog.application");
     }
 
-    public GSLogSettings setAdditionalFilename(String additionalFilename) {
+    public GSLogbackSettings setAdditionalFilename(String additionalFilename) {
         return set("gslog.additionalFilename", additionalFilename);
     }
 
@@ -49,7 +49,7 @@ public class GSLogSettings {
         return get("gslog.additionalFilename");
     }
 
-    public GSLogSettings setSystem(String system) {
+    public GSLogbackSettings setSystem(String system) {
         return set("gslog.system", system);
     }
 
@@ -57,7 +57,7 @@ public class GSLogSettings {
         return get("gslog.system");
     }
 
-    public GSLogSettings setTimestamp(String timestamp) {
+    public GSLogbackSettings setTimestamp(String timestamp) {
         return set("gslog.timestamp", timestamp);
     }
 
@@ -65,7 +65,7 @@ public class GSLogSettings {
         return get("gslog.timestamp");
     }
 
-    public GSLogSettings setUser(String user) {
+    public GSLogbackSettings setUser(String user) {
         return set("gslog.user", user);
     }
 
@@ -73,7 +73,7 @@ public class GSLogSettings {
         return get("gslog.user");
     }
 
-    public GSLogSettings setHome(String home) {
+    public GSLogbackSettings setHome(String home) {
         return set("gslog.home", home);
     }
 
@@ -81,7 +81,7 @@ public class GSLogSettings {
         return get("gslog.home");
     }
 
-    public GSLogSettings setServer(String server) {
+    public GSLogbackSettings setServer(String server) {
         return set("gslog.server", server);
     }
 
@@ -89,7 +89,7 @@ public class GSLogSettings {
         return get("gslog.server");
     }
 
-    public GSLogSettings setAbsoluteFilename(String absoluteFilename) {
+    public GSLogbackSettings setAbsoluteFilename(String absoluteFilename) {
         return set("gslog.absoluteFilename", absoluteFilename);
     }
 
@@ -97,7 +97,7 @@ public class GSLogSettings {
         return get("gslog.absoluteFilename");
     }
 
-    public GSLogSettings setErrorFilenameSuffix(String errorFilenameSuffix) {
+    public GSLogbackSettings setErrorFilenameSuffix(String errorFilenameSuffix) {
         return set("gslog.errorFilenameSuffix", errorFilenameSuffix);
     }
 
@@ -105,7 +105,7 @@ public class GSLogSettings {
         return get("gslog.errorFilenameSuffix");
     }
 
-    public GSLogSettings setFilenameSuffix(String filenameSuffix) {
+    public GSLogbackSettings setFilenameSuffix(String filenameSuffix) {
         return set("gslog.filenameSuffix", filenameSuffix);
     }
 
@@ -121,7 +121,7 @@ public class GSLogSettings {
 //        return set("gslog.started", isInitial ? null : "no");
 //    }
 
-    private GSLogSettings set(String name, String value) {
+    private GSLogbackSettings set(String name, String value) {
         if (value == null) {
             System.clearProperty(name);
         } else {

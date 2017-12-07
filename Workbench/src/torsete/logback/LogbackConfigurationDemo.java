@@ -6,18 +6,19 @@ import org.slf4j.LoggerFactory;
 /**
  * Created by Torsten on 28.11.2017.
  */
-public class LogConfigurationDemo {
-    private final static Logger log = LoggerFactory.getLogger(LogConfigurationDemo.class);
+public class LogbackConfigurationDemo {
+    private final static Logger log = LoggerFactory.getLogger(LogbackConfigurationDemo.class);
 
     public static void main(String... args) {
-        new LogConfigurationDemo().run();
+        new LogbackConfigurationDemo().run();
     }
 
     private void run() {
 //        runPlain();
 //        runLongPlain();
+        runLongPlainWithScan();
 //        runConfigurationWithUserName();
-        runWithConfiguration();
+//        runWithConfiguration();
     }
 
     private void runPlain() {
@@ -28,10 +29,15 @@ public class LogConfigurationDemo {
         doSomeWork(20000);
     }
 
+    private void runLongPlainWithScan() {
+//        new GSLogConfigurator().configure(true);
+        doSomeWork(20000);
+    }
+
     private void runConfigurationWithUserName() {
         log.info("Brugernavn skal lige bestemmes... ");
 
-        new GSLogConfigurator()
+        new GSLogbackConfigurator()
                 .acceptSettings(s -> s.setUser("USRxxx"))
                 .configure(true);
 
@@ -39,7 +45,7 @@ public class LogConfigurationDemo {
     }
 
     private void runWithConfiguration() {
-        new GSLogConfigurator()
+        new GSLogbackConfigurator()
                 .acceptSettings(s -> s
                         .setHome("myhome")
                         .setVersion("myVersion")
@@ -52,7 +58,7 @@ public class LogConfigurationDemo {
 
         log.info("Brugernavn skal lige bestemmes... ");
 
-        new GSLogConfigurator()
+        new GSLogbackConfigurator()
                 .acceptSettings(s -> s.setUser("USRxxx"))
                 .configure(true);
 

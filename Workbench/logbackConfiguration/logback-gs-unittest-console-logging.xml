@@ -1,7 +1,7 @@
 <!-- Entry for configuration of logback -->
 <included>
-    <include resource="logback-gs-standard-properties.xml"/>
-    <include resource="logback-gs-standard-console-appenders.xml"/>
+    <include file="${gslog.configurationFolder}/logback-gs-standard-properties.xml"/>
+    <include file="${gslog.configurationFolder}/logback-gs-standard-console-appenders.xml"/>
     <root level="debug">
         <appender-ref ref="gslog.consoleAppender"/>
     </root>

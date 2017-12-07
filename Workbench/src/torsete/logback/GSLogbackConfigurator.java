@@ -18,39 +18,39 @@ import java.util.function.Consumer;
  * 1) At indkapsle programmatisk brud af Logback-konfiguration
  * 2) At være mediator for vores log settings og Logback
  */
-public class GSLogConfigurator {
-    private final static Logger log = LoggerFactory.getLogger(GSLogConfigurator.class);
+public class GSLogbackConfigurator {
+    private final static Logger log = LoggerFactory.getLogger(GSLogbackConfigurator.class);
 
-    private GSLogSettings logSettings;
+    private GSLogbackSettings logSettings;
 
-    public GSLogConfigurator() {
-        logSettings = new GSLogSettings();
+    public GSLogbackConfigurator() {
+        logSettings = new GSLogbackSettings();
     }
 
-    public GSLogSettings getLogSettings() {
+    public GSLogbackSettings getLogSettings() {
         return logSettings;
     }
 
-    public GSLogConfigurator setLogSettings(GSLogSettings logSettings) {
+    public GSLogbackConfigurator setLogSettings(GSLogbackSettings logSettings) {
         this.logSettings = logSettings;
         return this;
     }
 
-    public GSLogConfigurator acceptSettings(Consumer<GSLogSettings> consumer) {
+    public GSLogbackConfigurator acceptSettings(Consumer<GSLogbackSettings> consumer) {
         consumer.accept(logSettings);
         return this;
     }
 
-    public GSLogConfigurator configure(boolean reset) {
+    public GSLogbackConfigurator configure(boolean reset) {
         URL url = ConfigurationWatchListUtil.getMainWatchURL((LoggerContext) LoggerFactory.getILoggerFactory());
         return configure(reset, url);
     }
 
-    public GSLogConfigurator configure() {
+    public GSLogbackConfigurator configure() {
         return configure(false);
     }
 
-    public GSLogConfigurator configure(boolean reset, URL url) {
+    public GSLogbackConfigurator configure(boolean reset, URL url) {
         Consumer<JoranConfigurator> configuratorConsumer = c -> {
             try {
                 c.doConfigure(url);
@@ -61,7 +61,7 @@ public class GSLogConfigurator {
         return configure(reset, configuratorConsumer);
     }
 
-    public GSLogConfigurator configure(boolean reset, File file) {
+    public GSLogbackConfigurator configure(boolean reset, File file) {
         Consumer<JoranConfigurator> configuratorConsumer = c -> {
             try {
                 c.doConfigure(file);
@@ -72,7 +72,7 @@ public class GSLogConfigurator {
         return configure(reset, configuratorConsumer);
     }
 
-    public GSLogConfigurator configure(boolean reset, FileInputStream fileInputStream) {
+    public GSLogbackConfigurator configure(boolean reset, FileInputStream fileInputStream) {
         Consumer<JoranConfigurator> configuratorConsumer = c -> {
             try {
                 c.doConfigure(fileInputStream);
@@ -91,7 +91,7 @@ public class GSLogConfigurator {
         context.stop();
     }
 
-    GSLogConfigurator configure(boolean reset, Consumer<JoranConfigurator> configuratorConsumer) {
+    GSLogbackConfigurator configure(boolean reset, Consumer<JoranConfigurator> configuratorConsumer) {
         log.info("Log configuration is changing");
 
         LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();

@@ -1,7 +1,7 @@
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import torsete.logback.GSLogConfigurator;
+import torsete.logback.GSLogbackConfigurator;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,8 +10,8 @@ import java.io.PrintWriter;
 /**
  * Created by Torsten on 03.12.2017.
  */
-public class GSLogConfiguratorTest {
-    private static Logger log = LoggerFactory.getLogger(GSLogConfiguratorTest.class);
+public class GSLogbackConfiguratorTest {
+    private static Logger log = LoggerFactory.getLogger(GSLogbackConfiguratorTest.class);
 
     class TestClass1 {
         private Logger log = LoggerFactory.getLogger(getClass());
@@ -73,7 +73,7 @@ public class GSLogConfiguratorTest {
                         "</configuration>\n" +
                         "");
 
-        new GSLogConfigurator()
+        new GSLogbackConfigurator()
                 .configure(false, file);
 
         testClass1.log("test1");
@@ -100,7 +100,7 @@ public class GSLogConfiguratorTest {
                         "</configuration>\n" +
                         "");
 
-        new GSLogConfigurator()
+        new GSLogbackConfigurator()
                 .configure(true, file);
 
         testClass1.log("test1");
