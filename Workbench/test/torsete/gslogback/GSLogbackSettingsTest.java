@@ -96,6 +96,13 @@ public class GSLogbackSettingsTest {
         } catch (AssertionError t) {
             // Forventer denne Exception
         }
+        try {
+            testPropertyGet(GSLogbackSettings.GSLOG_DATABASE, propertyValue, s -> s.getUser());
+            fail("Forventer en AssertionError");
+        } catch (AssertionError t) {
+            // Forventer denne Exception
+        }
+
     }
 
 
@@ -103,7 +110,6 @@ public class GSLogbackSettingsTest {
     public void testPropertyDatabase() {
         String propertyValue = testCount + "";
         testPropertySet(GSLogbackSettings.GSLOG_DATABASE, propertyValue, (s, v) -> s.setDatabase(v));
-        testPropertyGet(GSLogbackSettings.GSLOG_DATABASE, propertyValue, s -> s.getDatabase());
         testPropertyReset(GSLogbackSettings.GSLOG_DATABASE, s -> s.resetDatabase());
     }
 
