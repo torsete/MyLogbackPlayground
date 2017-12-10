@@ -1,5 +1,5 @@
 <included>
-    <appender context="system" name="gslog.consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+    <appender context='system' name='gslog.consoleAppender' class='ch.qos.logback.core.ConsoleAppender'>
         <encoder>
             <pattern>${gslog.pattern}</pattern>
         </encoder>

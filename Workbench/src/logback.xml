@@ -1,4 +1,6 @@
-<configuration scan="true" scanPeriod="500" debug="true"> <!-- in millis -->
-    <property name="gslog.configurationFolder" scope="system" value="${gslog.configurationFolder:-Workbench/logbackConfiguration}"/>
-    <include file="${gslog.configurationFolder}/config.xml"/>
+<configuration scan='true' scanPeriod='500' debug='true'> <!-- in millis -->
+    <!--<property name='gslog.rootLevel' scope='system' value='${gslog.rootLevel:-debug}'/>-->
+    <property name='gslog.configurationFolder' scope='system'
+              value='${gslog.configurationFolder:-Workbench/logbackConfiguration}'/>
+    <include file='${gslog.configurationFolder}/gslog-configure.xml'/>
 </configuration>

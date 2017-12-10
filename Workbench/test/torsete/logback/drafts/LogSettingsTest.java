@@ -43,7 +43,8 @@ public class LogSettingsTest {
 
         Logger log = LoggerFactory.getLogger(getClass());
 
-//        log.debug("log debug initial");
+//        log.debug(
+// "log debug initial");
 //        log.info("log info initial");
 //        log.warn("log warn initial");
 //        log.error("log error initial");

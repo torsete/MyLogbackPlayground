@@ -1,7 +1,7 @@
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import torsete.logback.GSLogbackConfigurator;
+import torsete.gslogback.GSLogbackConfigurator;
 
 import java.io.File;
 import java.io.IOException;
@@ -89,8 +89,8 @@ public class GSLogbackConfiguratorTest {
         TestClass3 testClass3 = new TestClass3();
         File file = createFile(
                 "<configuration>\n" +
-                        "    <include resource='logback-gs-standard-properties.xml'/>\n" +
-                        "    <include resource='logback-gs-standard-file-appenders.xml'/>\n" +
+                        "    <include resource='gslog-properties.xml'/>\n" +
+                        "    <include resource='gslog-file-appenders.xml'/>\n" +
                         "    <logger name='" + testClass1.getClass().getName() + "' level='debug'>\n" +
                         "        <appender-ref ref='gslog.fileAppender'/>\n" +
                         "    </logger>\n" +

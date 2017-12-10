@@ -1,0 +1,7 @@
+<included>
+    <include file='${gslog.configurationFolder}/gslog-file-appenders.xml'/>
+    <root level='${gslog.rootLevel}'>
+        <appender-ref ref='gslog.fileAppender'/>
+        <appender-ref ref='gslog.errorFileAppender'/>
+    </root>
+</included>

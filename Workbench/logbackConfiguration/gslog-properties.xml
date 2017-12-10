@@ -1,0 +1,71 @@
+<included>
+    <property name='gslog.hostName' scope='system'
+              value='${HOSTNAME}'/>     <!--In order to provide HOSTNAME as a system property -->
+    <property name='gslog.contextName' scope='system'
+              value='${CONTEXT_NAME}'/>     <!--In order to provide CONTEXT_NAME as a system property -->
+    <property name='gslog.rootLevel' scope='system' value='${gslog.rootLevel:-info}'/>
+    <property name='gslog.server' scope='system' value='${gslog.server:-logs}'/>
+    <property name='gslog.home' scope='system' value='${gslog.home:-home}'/>
+    <property name='gslog.environment' scope='system' value='${gslog.environment:-_}'/>
+    <property name='gslog.database' scope='system' value='${gslog.database:-Generel}'/>
+    <property name='gslog.system' scope='system' value='${gslog.system:-_}'/>
+    <property name='gslog.application' scope='system' value='${gslog.application:-_}'/>
+    <property name='gslog.additionalFileName' scope='system' value='${gslog.additionalFileName:-_}'/>
+    <property name='gslog.version' scope='system' value='${gslog.version:-_}'/>
+    <property name='gslog.user' scope='system' value='${gslog.user:-${user.name}}'/>
+    <property name='gslog.fileNameExtension' scope='system' value='.out.log'/>
+    <property name='gslog.errorFileNameExtension' scope='system' value='.err.log'/>
+    <property name='gslog.pattern' scope='system'
+              value='${gslog.pattern:-%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n}'/>
+
+    <if condition='!isDefined("gslog.fileNameTimestamp")'>
+        <then>
+            <timestamp scope='system' key='gslog.fileNameTimestamp' datePattern='yyyy-MM-dd_HH-mm-ss-SSS'/>
+        </then>
+    </if>
+
+    <property name='gslog.folder' scope='system'
+              value='${gslog.folder:-${gslog.server}/${gslog.home}/${gslog.version}/${gslog.environment}/${gslog.database}/${gslog.system}}'/>
+    <property name='gslog.fileName' scope='system'
+              value='${gslog.fileName:-${gslog.user}-${gslog.application}-${gslog.database}-${gslog.system}-${gslog.additionalFileName}-${gslog.fileNameTimestamp}}'/>
+    <property name='gslog.absoluteFileName' scope='system'
+              value='${gslog.absoluteFileName:-${gslog.folder}/${gslog.fileName}}'/>
+
+
+</included>
+
+
+        <!--<if condition='!isDefined("gslog.pattern")'>-->
+        <!--<then>-->
+        <!--<property name='gslog.pattern' scope='system'-->
+        <!--value='${gslog.pattern:-%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n}'/>-->
+        <!--</then>-->
+        <!--</if>-->
+
+        <!--<if condition='!isDefined("gslog.fileNameTimestamp")'>-->
+        <!--<then>-->
+        <!--<timestamp scope='system' key='gslog.fileNameTimestamp' datePattern='yyyy-MM-dd_HH-mm-ss-SSS'/>-->
+        <!--</then>-->
+        <!--</if>-->
+
+        <!--<if condition='!isDefined("gslog.folder")'>-->
+        <!--<then>-->
+        <!--<property name='gslog.folder' scope='system'-->
+        <!--value='${gslog.server}/${gslog.home}/${gslog.version}/${gslog.environment}/${gslog.database}/${gslog.system}'/>-->
+        <!--</then>-->
+        <!--</if>-->
+        <!--<if condition='!isDefined("gslog.fileName")'>-->
+        <!--<then>-->
+        <!--<property name='gslog.fileName' scope='system'-->
+        <!--value='${gslog.user}-${gslog.application}-${gslog.database}-${gslog.system}-${gslog.additionalFileName}-${gslog.fileNameTimestamp}'/>-->
+        <!--</then>-->
+        <!--</if>-->
+        <!--<if condition='!isDefined("gslog.absoluteFileName")'>-->
+        <!--<then>-->
+        <!--<property name='gslog.absoluteFileName' scope='system' value='${gslog.folder}/${gslog.fileName}'/>-->
+        <!--</then>-->
+        <!--</if>-->
+
+
+
+

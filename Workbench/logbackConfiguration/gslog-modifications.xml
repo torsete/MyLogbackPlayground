@@ -1,0 +1,22 @@
+<included>
+    <!--<appender name='gslog.fileAppender' >-->
+    <!--<file>${gslog.absoluteFilename}${gslog.filenameSuffix}_xxxxxxxxx</file>-->
+    <!--&lt;!&ndash;<encoder>&ndash;&gt;-->
+    <!--&lt;!&ndash;<pattern>${gslog.pattern}</pattern>&ndash;&gt;-->
+    <!--&lt;!&ndash;</encoder>&ndash;&gt;-->
+    <!--</appender>-->
+    <!--<appender name='gslog.errorFileAppender' class='ch.qos.logback.core.FileAppender'>-->
+    <!--<filter class='ch.qos.logback.classic.filter.ThresholdFilter'>-->
+    <!--<level>warn</level>-->
+    <!--</filter>-->
+    <!--<file>${gslog.absoluteFilename}${gslog.errorFilenameSuffix}</file>-->
+    <!--<encoder>-->
+    <!--<pattern>${gslog.pattern}</pattern>-->
+    <!--</encoder>-->
+    <!--</appender>-->
+
+</included>
+
+
+
+

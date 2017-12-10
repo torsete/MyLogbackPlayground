@@ -1,5 +1,9 @@
-<!-- Main entry for configuration of logback -->
-<configuration scan="true" scanPeriod="500"> <!-- in millis -->
-    <jmxConfigurator/>
-    <include resource="logback-gs-unittest-console-logging.xml"/>
+<configuration scan='true' scanPeriod='500' debug='true'> <!-- in millis -->
+    <property name='gslog.configurationFolder' scope='system'
+              value='${gslog.configurationFolder:-logbackConfiguration}'/>
+    <include file='${gslog.configurationFolder}/gslog-configure.xml'/>
+
+    <property name='gslog.rootLevel' scope='system' value='${gslog.rootLevel:-debug}'/>
+    <include file='${gslog.configurationFolder}/gslog-properties.xml'/>
+    <include file='${gslog.configurationFolder}/gslog-configure-console-logging.xml'/>
 </configuration>

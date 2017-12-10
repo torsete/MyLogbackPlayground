@@ -1,0 +1,6 @@
+<included>
+    <include file='${gslog.configurationFolder}/gslog-properties.xml'/>
+    <include file='${gslog.configurationFolder}/gslog-configure-console-logging.xml'/>
+    <include file='${gslog.configurationFolder}/gslog-configure-file-logging.xml'/>
+    <include file='${gslog.configurationFolder}/gslog-modifications.xml'/>
+</included>

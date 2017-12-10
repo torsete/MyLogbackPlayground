@@ -1,4 +1,4 @@
-package torsete.logback;
+package torsete.gslogback;
 
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.joran.JoranConfigurator;
@@ -7,6 +7,7 @@ import ch.qos.logback.core.joran.util.ConfigurationWatchListUtil;
 import ch.qos.logback.core.util.StatusPrinter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.w3c.dom.Document;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -81,6 +82,12 @@ public class GSLogbackConfigurator {
             }
         };
         return configure(reset, configuratorConsumer);
+    }
+
+    public GSLogbackConfigurator configure(boolean reset, Document document) {
+        // TODO: implement
+
+        return this;
     }
 
     /**
