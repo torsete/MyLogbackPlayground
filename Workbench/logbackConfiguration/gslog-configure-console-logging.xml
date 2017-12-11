@@ -1,4 +1,5 @@
 <included>
+    <include file='${gslog.configurationFolder}/gslog-properties.xml'/>
     <include file='${gslog.configurationFolder}/gslog-console-appenders.xml'/>
     <root level='${gslog.rootLevel}'>
         <appender-ref ref='gslog.consoleAppender'/>

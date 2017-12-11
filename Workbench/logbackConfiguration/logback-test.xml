@@ -1,6 +1,5 @@
 <included>
-    <include file='${gslog.configurationFolder}/gslog-properties.xml'/>
+    <property name='gslog.rootLevel' scope='system' value='debug'/>
     <include file='${gslog.configurationFolder}/gslog-configure-console-logging.xml'/>
     <include file='${gslog.configurationFolder}/gslog-configure-file-logging.xml'/>
-    <include file='${gslog.configurationFolder}/gslog-modifications.xml'/>
 </included>
