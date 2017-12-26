@@ -1,5 +1,6 @@
 package torsete.logback.drafts;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -78,7 +79,7 @@ public class LogSettingsTest {
         staticLog.error("staticLog error");
     }
 
-    @Test
+    @Ignore
     public void test3() {
 
         Logger log = LoggerFactory.getLogger(getClass());

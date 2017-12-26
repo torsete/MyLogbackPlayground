@@ -1,6 +1,6 @@
 <included>
     <include file='${gslog.configurationFolder}/gslog-properties.xml'/>
-    <include file='${gslog.configurationFolder}/gslog-file-appenders.xml'/>
+    <include file='${gslog.configurationFolder}/gslog-file-appender.xml'/>
     <root level='${gslog.rootLevel}'>
         <appender-ref ref='gslog.fileAppender'/>
         <appender-ref ref='gslog.errorFileAppender'/>

@@ -90,7 +90,7 @@ public class GSLogbackConfiguratorTest {
         File file = createFile(
                 "<configuration>\n" +
                         "    <include resource='gslog-properties.xml'/>\n" +
-                        "    <include resource='gslog-file-appenders.xml'/>\n" +
+                        "    <include resource='gslog-file-appender.xml'/>\n" +
                         "    <logger name='" + testClass1.getClass().getName() + "' level='debug'>\n" +
                         "        <appender-ref ref='gslog.fileAppender'/>\n" +
                         "    </logger>\n" +

@@ -35,37 +35,6 @@
 </included>
 
 
-        <!--<if condition='!isDefined("gslog.pattern")'>-->
-        <!--<then>-->
-        <!--<property name='gslog.pattern' scope='system'-->
-        <!--value='${gslog.pattern:-%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n}'/>-->
-        <!--</then>-->
-        <!--</if>-->
-
-        <!--<if condition='!isDefined("gslog.fileNameTimestamp")'>-->
-        <!--<then>-->
-        <!--<timestamp scope='system' key='gslog.fileNameTimestamp' datePattern='yyyy-MM-dd_HH-mm-ss-SSS'/>-->
-        <!--</then>-->
-        <!--</if>-->
-
-        <!--<if condition='!isDefined("gslog.folder")'>-->
-        <!--<then>-->
-        <!--<property name='gslog.folder' scope='system'-->
-        <!--value='${gslog.server}/${gslog.home}/${gslog.version}/${gslog.environment}/${gslog.database}/${gslog.system}'/>-->
-        <!--</then>-->
-        <!--</if>-->
-        <!--<if condition='!isDefined("gslog.fileName")'>-->
-        <!--<then>-->
-        <!--<property name='gslog.fileName' scope='system'-->
-        <!--value='${gslog.user}-${gslog.application}-${gslog.database}-${gslog.system}-${gslog.additionalFileName}-${gslog.fileNameTimestamp}'/>-->
-        <!--</then>-->
-        <!--</if>-->
-        <!--<if condition='!isDefined("gslog.absoluteFileName")'>-->
-        <!--<then>-->
-        <!--<property name='gslog.absoluteFileName' scope='system' value='${gslog.folder}/${gslog.fileName}'/>-->
-        <!--</then>-->
-        <!--</if>-->
-
 
 
 
