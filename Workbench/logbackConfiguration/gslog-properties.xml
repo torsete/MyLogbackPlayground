@@ -25,11 +25,10 @@
     </if>
 
     <property name='gslog.folder' scope='system'
-              value='${gslog.folder:-${gslog.server}/${gslog.home}/${gslog.version}/${gslog.environment}/${gslog.database}/${gslog.system}}'/>
+              value='${gslog.server}/${gslog.home}/${gslog.version}/${gslog.environment}/${gslog.database}/${gslog.system}'/>
     <property name='gslog.fileName' scope='system'
-              value='${gslog.fileName:-${gslog.user}-${gslog.application}-${gslog.database}-${gslog.system}-${gslog.additionalFileName}-${gslog.fileNameTimestamp}}'/>
-    <property name='gslog.absoluteFileName' scope='system'
-              value='${gslog.absoluteFileName:-${gslog.folder}/${gslog.fileName}}'/>
+              value='${gslog.user}-${gslog.application}-${gslog.database}-${gslog.system}-${gslog.additionalFileName}-${gslog.fileNameTimestamp}'/>
+    <property name='gslog.absoluteFileName' scope='system' value='${gslog.folder}/${gslog.fileName}'/>
 
 
 </included>

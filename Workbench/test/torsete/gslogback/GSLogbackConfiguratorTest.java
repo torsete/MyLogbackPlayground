@@ -31,7 +31,7 @@ public class GSLogbackConfiguratorTest {
 
     @After
     public void after() {
-        configurator.setVerbose(false).configure(true, initialConfigurationUrl);
+        configurator.setVerbose(false).reset(initialConfigurationUrl);
     }
 
     @Test
