@@ -17,7 +17,7 @@
     <property name='gslog.errorFileNameExtension' scope='system' value='.err.log'/>
     <property name='gslog.pattern' scope='system'
               value='${gslog.pattern:-%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n}'/>
-
+    <!--value='${gslog.pattern:-%-4d{yyyy-MM-dd HH:mm:ss.SSS} %-5p%X{sessionid} [%c{1} %t] - %m %n'/>-->
     <if condition='!isDefined("gslog.fileNameTimestamp")'>
         <then>
             <timestamp scope='system' key='gslog.fileNameTimestamp' datePattern='yyyy-MM-dd_HH-mm-ss-SSS'/>

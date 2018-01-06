@@ -1,0 +1,8 @@
+<configuration scan='true' scanPeriod='500' >
+    <property name='gslog.configurationFolder' scope='system' value='Workbench/logbackConfiguration}'/>
+
+    <property name='gslog.rootLevel' scope='system' value='debug'/>
+    <include file='${gslog.configurationFolder}/gslog-configure-console-logging.xml'/>
+    <include file='${gslog.configurationFolder}/gslog-configure-file-logging.xml'/>
+    <include file='${gslog.configurationFolder}/gslog-configure-optional.xml'/>
+</configuration>

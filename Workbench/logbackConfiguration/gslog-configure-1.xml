@@ -1,0 +1,3 @@
+<included>
+    <include file='${gslog.configurationFolder}/gslog-configure-console-logging.xml'/>
+</included>
