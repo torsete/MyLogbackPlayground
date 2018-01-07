@@ -7,8 +7,6 @@ import org.slf4j.LoggerFactory;
 import torsete.gslogback.GSLogbackConfigurator;
 import torsete.gslogback.GSLogbackProperties;
 
-import java.io.File;
-
 /**
  * Created by Torsten on 28.11.2017.
  */
@@ -25,10 +23,10 @@ public class LogbackConfigurationDemo {
 
     private void run() {
 //        runPlain();
-        runLongPlain();
+//        runLongPlain();
 //        runLongPlainWithScan();
 //        runConfigurationWithUserName();
-//        runWithConfiguration();
+        runWithConfiguration();
     }
 
     private void runPlain() {
@@ -60,15 +58,13 @@ public class LogbackConfigurationDemo {
         GSLogbackProperties.GSLOG_DATABASE.setValue("mydatabase");
         GSLogbackProperties.GSLOG_SYSTEM.setValue("mysystem");
         GSLogbackProperties.GSLOG_APPLICATION.setValue(getClass().getSimpleName());
-
-        new GSLogbackConfigurator()
-                .reset();
+        new GSLogbackConfigurator().reset();
 
         log.info("Brugernavn skal lige bestemmes... ");
 
         GSLogbackProperties.GSLOG_USER.setValue("USRxxx");
         new GSLogbackConfigurator().reset();
-        log.info("logfil: " + new File(GSLogbackProperties.GSLOG_ABSOLUTE_FILE_NAME.getValue()).getAbsolutePath());
+        log.info("logfil: " + GSLogbackProperties.getLogFile().getAbsolutePath());
         log.info("Settings:\n" + GSLogbackProperties.toStrings());
 
         doSomeWork(2);

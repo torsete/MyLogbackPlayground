@@ -1,59 +1,56 @@
 package torsete.gslogback;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.Properties;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
  * Ansvar: Facade til de settings vi kan bruge til Logback-konfiguration
  */
 public enum GSLogbackProperties {
-    LOGBACK_CONFIGURATUTON_FILE(true, "logback.configurationFile"),
-    GSLOG_CONFIGURATION_FOLDER(true, "gslog.configurationFolder"),
-    GSLOG_HOST_NAME(false, "gslog.hostName"),
-    GSLOG_ROOT_LEVEL(true, "gslog.rootLevel"),
-    GSLOG_CONTEXT_NAME(false, "gslog.contextName"),
-    GSLOG_DATABASE(true, "gslog.database"),
-    GSLOG_ENVIRONMENT(true, "gslog.environment"),
-    GSLOG_VERSION(true, "gslog.version"),
-    GSLOG_APPLICATION(true, "gslog.application"),
-    GSLOG_ADDITIONAL_FILE_NAME(true, "gslog.additionalFileName"),
-    GSLOG_FILE_NAME_TIMSTAMP(true, "gslog.fileNameTimestamp"),
-    GSLOG_SYSTEM(true, "gslog.system"),
-    GSLOG_USER(true, "gslog.user"),
-    GSLOG_HOME(true, "gslog.home"),
-    GSLOG_SERVER(true, "gslog.server"),
-    GSLOG_FILE_NAME(true, "gslog.fileName"),
-    GSLOG_FOLDER_NAME(true, "gslog.folderName"),
-    GSLOG_ABSOLUTE_FILE_NAME(false, "gslog.absoluteFileName"),
-    GSLOG_FILE_NAME_EXTENSION(true, "gslog.fileNameExtension"),
-    GSLOG_ERROR_FILE_NAME_EXTENSION(true, "gslog.errorFileNameExtension"),
-    GSLOG_PATTERN(true, "gslog.pattern");
+    LOGBACK_CONFIGURATION_FILE("logback.configurationFile"),
+    GSLOG_ROOT_LEVEL("gslog.rootLevel"),
+    GSLOG_CONSOLE("gslog.console", v -> v.equals("true") || v.equals("false")),
+    GSLOG_FILE("gslog.file", v -> v.equals("true") || v.equals("false")),
+    GSLOG_DATABASE("gslog.database"),
+    GSLOG_ENVIRONMENT("gslog.environment"),
+    GSLOG_VERSION("gslog.version"),
+    GSLOG_APPLICATION("gslog.application"),
+    GSLOG_ADDITIONAL_FILE_NAME("gslog.additionalFileName"),
+    GSLOG_FILE_NAME_TIMSTAMP("gslog.fileNameTimestamp"),
+    GSLOG_SYSTEM("gslog.system"),
+    GSLOG_USER("gslog.user"),
+    GSLOG_HOME("gslog.home"),
+    GSLOG_SERVER("gslog.server"),
+    GSLOG_FILE_NAME_EXTENSION("gslog.fileNameExtension"),
+    GSLOG_ERROR_FILE_NAME_EXTENSION("gslog.errorFileNameExtension"),
+    GSLOG_PATTERN("gslog.pattern"),
+    GSLOG_HOST_NAME("gslog.hostName", v -> false),
+    GSLOG_CONTEXT_NAME("gslog.contextName", v -> false),
+    GSLOG_FILE_NAME("gslog.fileName", v -> false),
+    GSLOG_FOLDER_NAME("gslog.folderName", v -> false);
+
 
     private String propertyKey;
-    private String defaultValue;
-    private boolean isApplicationConfigurable; // False hvis det er en beregnet værdi
+    private Predicate<String> isValidPredicate;
 
-    GSLogbackProperties(boolean isApplicationConfigurable, String propertyKey, String defaultValue) {
-        this.isApplicationConfigurable = isApplicationConfigurable;
+
+    GSLogbackProperties(String propertyKey, Predicate<String> isValidPredicate) {
         this.propertyKey = propertyKey;
-        this.defaultValue = defaultValue;
+        this.isValidPredicate = isValidPredicate;
     }
 
-    GSLogbackProperties(String propertyKey, String defaultValue) {
-        this.propertyKey = propertyKey;
-        this.defaultValue = defaultValue;
+    GSLogbackProperties(String propertyKey) {
+        this(propertyKey, v -> true);
     }
 
-    GSLogbackProperties(boolean isApplicationConfigurable, String propertyKey) {
-        this.isApplicationConfigurable = isApplicationConfigurable;
-        this.propertyKey = propertyKey;
-    }
 
     public GSLogbackProperties setValue(String value) {
-        if (!isApplicationConfigurable) {
-            throw new IllegalArgumentException(name() + " er en beregnet værdi og må ikke ændres her");
+        if (!isValidPredicate.test(value)) {
+            throw new IllegalArgumentException(name() + " kan ikke tildeles vÃ¦rdier '" + value + "'");
         }
         if (value == null || value.trim().length() == 0) {
             System.clearProperty(propertyKey);
@@ -76,12 +73,8 @@ public enum GSLogbackProperties {
         return this;
     }
 
-    public GSLogbackProperties resetValue() {
-        return defaultValue == null ? clearValue() : setValue(defaultValue);
-    }
-
-    public boolean isApplicationConfigurable() {
-        return isApplicationConfigurable;
+    public boolean isValid() {
+        return isValidPredicate.test(getValue());
     }
 
     @Override
@@ -89,13 +82,18 @@ public enum GSLogbackProperties {
         return getKey() + "=" + getValue();
     }
 
-    public static void clearAll() {
-        Arrays.stream(values()).forEach(v -> v.clearValue());
 
+    public static File getLogFile() {
+        return new File(GSLOG_FOLDER_NAME.getValue() + File.separator + GSLOG_FILE_NAME.getValue() + GSLOG_FILE_NAME_EXTENSION.getValue());
     }
 
-    public static void resetAll() {
-        Arrays.stream(values()).forEach(v -> v.resetValue());
+    public static File getErrorLogFile() {
+        return new File(GSLOG_FOLDER_NAME.getValue() + File.separator + GSLOG_FILE_NAME.getValue() + GSLOG_ERROR_FILE_NAME_EXTENSION.getValue());
+    }
+
+    public static void clear() {
+        Arrays.stream(values()).forEach(v -> v.clearValue());
+
     }
 
     public static String toStrings() {
@@ -104,18 +102,30 @@ public enum GSLogbackProperties {
                 .collect(Collectors.joining("\n"));
     }
 
+    public static String toStringsAll() {
+        return toStrings() + "\n"
+                + System.getProperties().entrySet().stream()
+                .filter(e -> e.getKey().toString().startsWith("gslog.") || e.getKey().toString().startsWith("logback."))
+                .filter(e -> get(e.getKey().toString()) == null)
+                .map(e -> "Unknown property: " + e.getKey() + "=" + (e.getValue() == null ? "" : e.getValue()))
+                .collect(Collectors.joining("\n"));
+    }
 
     public static String toVmArguments() {
         return Arrays.stream(values())
-                .filter(v -> v.isApplicationConfigurable)
+                .filter(v -> v.isValid())
                 .map(v -> "-D" + v.getKey() + "=" + (v.getValue() == null ? "" : v.getValue()))
                 .collect(Collectors.joining("\n"));
     }
 
     public static void set(String propertyKey, String value) {
+        GSLogbackProperties k = get(propertyKey);
+        System.setProperty(k.getKey(), value); // If null - NPE Exception
+    }
+
+    public static GSLogbackProperties get(String propertyKey) {
         Optional<GSLogbackProperties> first = Arrays.stream(values()).filter(v -> v.getKey().equals(propertyKey)).findFirst();
-        GSLogbackProperties v = first.get();
-        System.setProperty(v.getKey(), value);
+        return first.isPresent() ? first.get() : null;
     }
 
     public static Properties exportProperties() {
@@ -127,4 +137,5 @@ public enum GSLogbackProperties {
     public static void importProperties(Properties properties) {
         properties.entrySet().stream().forEach(e -> set(e.getKey().toString(), e.getValue().toString()));
     }
+
 }

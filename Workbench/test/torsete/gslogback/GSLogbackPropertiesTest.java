@@ -27,12 +27,12 @@ public class GSLogbackPropertiesTest {
 
     @After
     public void after() {
-        GSLogbackProperties.clearAll();
+        GSLogbackProperties.clear();
         GSLogbackProperties.importProperties(defaultSettings);
     }
 
     @Test
-    public void testToString() {
+    public void testToStrings() {
         String s = GSLogbackProperties.toStrings();
         log.info("\n" + s);
         String[] split = s.split("\n");
@@ -43,6 +43,26 @@ public class GSLogbackPropertiesTest {
     }
 
     @Test
+    public void testToStringsAll() {
+        String s = GSLogbackProperties.toStringsAll();
+        log.info("\n" + s);
+        String[] split = s.split("\n");
+        assertEquals(GSLogbackProperties.values().length, split.length);
+        for (int i = 0; i < GSLogbackProperties.values().length; i++) {
+            assertTrue(split[i].startsWith(GSLogbackProperties.values()[i].getKey() + "="));
+        }
+
+        System.setProperty("gslog.xxx", "yyy");
+        s = GSLogbackProperties.toStringsAll();
+        log.info("\n" + s);
+        split = s.split("\n");
+        assertEquals(GSLogbackProperties.values().length + 1, split.length);
+        assertEquals(GSLogbackProperties.values().length + 1, GSLogbackProperties.toStringsAll().split("\n").length);
+        assertEquals(GSLogbackProperties.values().length, GSLogbackProperties.toStrings().split("\n").length);
+
+    }
+
+    @Test
     public void testToVmArguments() {
         String s = GSLogbackProperties.toVmArguments();
         log.info("\n" + s);
@@ -50,7 +70,7 @@ public class GSLogbackPropertiesTest {
         assertTrue(GSLogbackProperties.values().length >= split.length);
         int j = 0;
         for (int i = 0; i < GSLogbackProperties.values().length; i++) {
-            if (!GSLogbackProperties.values()[i].isApplicationConfigurable()) {
+            if (!GSLogbackProperties.values()[i].isValid()) {
                 continue;
             }
             assertTrue(split[j].startsWith("-D" + GSLogbackProperties.values()[i].getKey() + "="));

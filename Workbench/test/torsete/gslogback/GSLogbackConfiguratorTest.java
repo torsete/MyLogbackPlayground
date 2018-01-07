@@ -16,26 +16,26 @@ import java.net.URL;
  */
 public class GSLogbackConfiguratorTest {
     private static Logger log = LoggerFactory.getLogger(GSLogbackConfiguratorTest.class);
-    private int testCount;
-    private URL initialConfigurationUrl;
+    private static URL initialConfigurationUrl;
     private GSLogbackConfigurator configurator;
     @Rule
     public TestName testName = new TestName();
 
+    @BeforeClass
+    public static void beforeClass() {
+        GSLogbackProperties.clear();
+        GSLogbackProperties.GSLOG_SYSTEM.setValue("JUnit");
+        GSLogbackProperties.GSLOG_APPLICATION.setValue(GSLogbackConfiguratorTest.class.getSimpleName());
+        initialConfigurationUrl = new GSLogbackConfigurator().reset().getCurrentConfigurationUrl();
+    }
+
     @Before
     public void before() {
-        configurator = new GSLogbackConfigurator().setVerbose(false);
-        initialConfigurationUrl = configurator.getCurrentConfigurationUrl();
-        testCount++;
-    }
-
-    @After
-    public void after() {
-        configurator.setVerbose(false).reset(initialConfigurationUrl);
-    }
-
-    @Test
-    public void testToString() {
+        GSLogbackProperties.clear();
+        GSLogbackProperties.GSLOG_SYSTEM.setValue("JUnit");
+        GSLogbackProperties.GSLOG_APPLICATION.setValue(getClass().getSimpleName() + "." + testName.getMethodName());
+        configurator = new GSLogbackConfigurator().reset(initialConfigurationUrl);
+        System.out.println("\n" + GSLogbackProperties.toStrings());
     }
 
     @Test
@@ -43,14 +43,15 @@ public class GSLogbackConfiguratorTest {
         Logger logA = LoggerFactory.getLogger("loggerA-" + testName.getMethodName());
         Logger logB = LoggerFactory.getLogger("loggerB-" + testName.getMethodName());
         Logger logC = LoggerFactory.getLogger("loggerC-" + testName.getMethodName());
-        String fullOutLogFileName = GSLogbackProperties.GSLOG_ABSOLUTE_FILE_NAME.getValue() + "." + testName + GSLogbackProperties.GSLOG_FILE_NAME_EXTENSION.getValue();
-        File file = new File(fullOutLogFileName);
+
+        File file = GSLogbackProperties.getLogFile();
+        String fullOutLogFileName = file.getAbsolutePath();
 
         GSLogbackConfigurationDocument configuration = new GSLogbackConfigurationDocument("configuration")
                 .setFilenameWithExtension(fullOutLogFileName)
                 .setRootLevel("INFO")
                 .addLoggers("loggerA-" + testName.getMethodName(), "loggerB-" + testName.getMethodName());
-        configurator.modify(configuration);
+        configurator.reset(configuration);
 
         logA.info("her er A");
         logB.info("her er B");
@@ -75,14 +76,15 @@ public class GSLogbackConfiguratorTest {
         Logger logA = LoggerFactory.getLogger("loggerA-1");
         Logger logB = LoggerFactory.getLogger("loggerB-1");
         Logger logC = LoggerFactory.getLogger("loggerC-1");
-        String fullOutLogFileName = GSLogbackProperties.GSLOG_ABSOLUTE_FILE_NAME.getValue() + "." + testName + GSLogbackProperties.GSLOG_FILE_NAME_EXTENSION.getValue();
-        File file = new File(fullOutLogFileName);
+
+        File file = GSLogbackProperties.getLogFile();
+        String fullOutLogFileName = file.getAbsolutePath();
 
         GSLogbackConfigurationDocument configuration = new GSLogbackConfigurationDocument("configuration")
                 .setFilenameWithExtension(fullOutLogFileName)
                 .setRootLevel("INFO")
                 .addLoggers("loggerA-1", "loggerB-1");
-        configurator.modify(configuration);
+        configurator.reset(configuration);
 
         logA.info("her er A");
         logB.info("her er B");
@@ -99,20 +101,24 @@ public class GSLogbackConfiguratorTest {
         Assert.assertEquals(1, countInFile("her er warn B", fullOutLogFileName));
         Assert.assertEquals(0, countInFile("her er C", fullOutLogFileName));
         Assert.assertEquals(0, countInFile("her er warn C", fullOutLogFileName));
+
+        configurator.printRemainingErrorsOrWarnings();  // Logback har givet en warning fordi der var logingr der (med hensigt) blev ignoreret
     }
+
     @Test
     public void testConfigureSelectionLoggingWithWarn2() {
         Logger logA = LoggerFactory.getLogger("loggerA-1");
         Logger logB = LoggerFactory.getLogger("loggerB-1");
         Logger logC = LoggerFactory.getLogger("loggerC-1");
-        String fullOutLogFileName = GSLogbackProperties.GSLOG_ABSOLUTE_FILE_NAME.getValue() + "." + testName + GSLogbackProperties.GSLOG_FILE_NAME_EXTENSION.getValue();
-        File file = new File(fullOutLogFileName);
+
+        File file = GSLogbackProperties.getLogFile();
+        String fullOutLogFileName = file.getAbsolutePath();
 
         GSLogbackConfigurationDocument configuration = new GSLogbackConfigurationDocument("configuration")
                 .setFilenameWithExtension(fullOutLogFileName)
                 .setRootLevel("INFO")
                 .addLoggers("loggerA-1", "loggerC-1");
-        configurator.modify(configuration);
+        configurator.reset(configuration);
 
         logA.info("her er A");
         logB.info("her er B");
@@ -129,10 +135,14 @@ public class GSLogbackConfiguratorTest {
         Assert.assertEquals(0, countInFile("her er warn B", fullOutLogFileName));
         Assert.assertEquals(1, countInFile("her er C", fullOutLogFileName));
         Assert.assertEquals(1, countInFile("her er warn C", fullOutLogFileName));
+
+        configurator.printRemainingErrorsOrWarnings();  // Logback har givet en warning fordi der var logingr der (med hensigt) blev ignoreret
     }
 
     @Test
-    public void testPlaiLogging() {
+    public void testPlainLogging() {
+
+        configurator.reset();
         Logger logA = LoggerFactory.getLogger("loggerA-" + testName.getMethodName());
         Logger logB = LoggerFactory.getLogger("loggerB-" + testName.getMethodName());
         Logger logC = LoggerFactory.getLogger("loggerC-" + testName.getMethodName());

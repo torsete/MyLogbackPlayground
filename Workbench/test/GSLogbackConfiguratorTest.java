@@ -74,7 +74,7 @@ public class GSLogbackConfiguratorTest {
                         "");
 
         new GSLogbackConfigurator()
-                .modify(file);
+                .add(file);
 
         testClass1.log("test1");
         testClass2.log("test2");
