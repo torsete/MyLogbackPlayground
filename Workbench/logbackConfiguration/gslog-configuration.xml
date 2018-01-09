@@ -2,6 +2,7 @@
 
     <property name='gslog.rootLevel' scope='system' value='${gslog.rootLevel:-info}'/>
     <property name='gslog.server' scope='system' value='${gslog.server:-logs}'/>
+    <property name='gslog.incidentHome' scope='system' value='${gslog.home:-incidents}'/>
     <property name='gslog.home' scope='system' value='${gslog.home:-home}'/>
     <property name='gslog.environment' scope='system' value='${gslog.environment:-_}'/>
     <property name='gslog.database' scope='system' value='${gslog.database:-Generel}'/>
@@ -12,6 +13,8 @@
     <property name='gslog.user' scope='system' value='${gslog.user:-${user.name}}'/>
     <property name='gslog.fileNameExtension' scope='system' value='${gslog.fileNameExtension:-.out.log}'/>
     <property name='gslog.errorFileNameExtension' scope='system' value='${gslog.errorFileNameExtension:-.err.log}'/>
+    <property name='gslog.incidentFileNameExtension' scope='system'
+              value='${gslog.incidentFileNameExtension:-.incident.log}'/>
     <property name='gslog.pattern' scope='system'
               value='${gslog.pattern:-%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n}'/>
     <if condition='!isDefined("gslog.fileNameTimestamp")'>
@@ -28,41 +31,44 @@
               value='${gslog.server}/${gslog.home}/${gslog.version}/${gslog.environment}/${gslog.database}/${gslog.system}'/>
     <property name='gslog.fileName' scope='system'
               value='${gslog.user}-${gslog.application}-${gslog.database}-${gslog.system}-${gslog.additionalFileName}-${gslog.fileNameTimestamp}'/>
+    <property name='gslog.incidentFolderName' scope='system'
+              value='${gslog.server}/${gslog.incidentHome}/${gslog.version}/${gslog.environment}/${gslog.database}/${gslog.system}'/>
 
-
-    <property name='gslog.console' scope='system' value='${gslog.console:-true}'/>
+    <property name='gslog.console' scope='system' value='${gslog.console:-false}'/>
     <property name='gslog.file' scope='system' value='${gslog.file:-true}'/>
 
-    <if condition='property("gslog.console").contains("true")'>
-        <then>
-            <appender context='system' name='gslog.consoleAppender' class='ch.qos.logback.core.ConsoleAppender'>
-                <encoder>
-                    <pattern>${gslog.pattern}</pattern>
-                </encoder>
-            </appender>
-        </then>
-    </if>
+    <appender context='system' name='gslog.consoleAppender' class='ch.qos.logback.core.ConsoleAppender'>
+        <encoder>
+            <pattern>${gslog.pattern}</pattern>
+        </encoder>
+    </appender>
 
+    <appender name='gslog.fileAppender' class='ch.qos.logback.core.FileAppender'>
+        <file>${gslog.folderName}/${gslog.fileName}${gslog.fileNameExtension}</file>
+        <encoder>
+            <pattern>${gslog.pattern}</pattern>
+        </encoder>
+    </appender>
+    <appender name='gslog.errorFileAppender' class='ch.qos.logback.core.FileAppender'>
+        <filter class='ch.qos.logback.classic.filter.ThresholdFilter'>
+            <level>warn</level>
+        </filter>
+        <file>${gslog.folderName}/${gslog.fileName}${gslog.errorFileNameExtension}</file>
+        <encoder>
+            <pattern>${gslog.pattern}</pattern>
+        </encoder>
+    </appender>
+    <appender name="gslog.incidentFileAppender" class="ch.qos.logback.core.FileAppender">
+        <file>${gslog.incidentFolderName}/${gslog.fileName}${gslog.incidentFileNameExtension}</file>
+        <encoder>
+            <pattern>${gslog.pattern}</pattern>
+        </encoder>
+    </appender>
 
-    <if condition='property("gslog.file").contains("true")'>
-        <then>
-            <appender name='gslog.fileAppender' class='ch.qos.logback.core.FileAppender'>
-                <file>${gslog.folderName}/${gslog.fileName}${gslog.fileNameExtension}</file>
-                <encoder>
-                    <pattern>${gslog.pattern}</pattern>
-                </encoder>
-            </appender>
-            <appender name='gslog.errorFileAppender' class='ch.qos.logback.core.FileAppender'>
-                <filter class='ch.qos.logback.classic.filter.ThresholdFilter'>
-                    <level>warn</level>
-                </filter>
-                <file>${gslog.folderName}/${gslog.fileName}${gslog.errorFileNameExtension}</file>
-                <encoder>
-                    <pattern>${gslog.pattern}</pattern>
-                </encoder>
-            </appender>
-        </then>
-    </if>
+    <logger level='${gslog.rootLevel}' name="dk.gensam.gaia.util.incident.GSIncident">
+        <!--name="GSIncident">NB Kræver at logger i java navngives som "GSIncident.class.getSimpleName" -->
+        <appender-ref ref="gslog.incidentFileAppender"/>
+    </logger>
 
     <root level='${gslog.rootLevel}'>
         <if condition='property("gslog.console").contains("true")'>

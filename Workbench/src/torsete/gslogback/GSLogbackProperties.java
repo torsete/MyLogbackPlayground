@@ -24,14 +24,17 @@ public enum GSLogbackProperties {
     GSLOG_SYSTEM("gslog.system"),
     GSLOG_USER("gslog.user"),
     GSLOG_HOME("gslog.home"),
+    GSLOG_INCIDENT_HOME("gslog.incidentHome"),
     GSLOG_SERVER("gslog.server"),
     GSLOG_FILE_NAME_EXTENSION("gslog.fileNameExtension"),
     GSLOG_ERROR_FILE_NAME_EXTENSION("gslog.errorFileNameExtension"),
+    GSLOG_INCIDENT_FILE_NAME_EXTENSION("gslog.incidentFileNameExtension"),
     GSLOG_PATTERN("gslog.pattern"),
     GSLOG_HOST_NAME("gslog.hostName", v -> false),
     GSLOG_CONTEXT_NAME("gslog.contextName", v -> false),
     GSLOG_FILE_NAME("gslog.fileName", v -> false),
-    GSLOG_FOLDER_NAME("gslog.folderName", v -> false);
+    GSLOG_FOLDER_NAME("gslog.folderName", v -> false),
+    GSLOG_INCIDENT_FOLDER_NAME("gslog.incidentFolderName", v -> false);
 
 
     private String propertyKey;
