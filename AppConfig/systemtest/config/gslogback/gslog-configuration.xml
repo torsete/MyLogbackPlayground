@@ -43,32 +43,36 @@
         </encoder>
     </appender>
 
-    <appender name='gslog.fileAppender' class='ch.qos.logback.core.FileAppender'>
-        <file>${gslog.folderName}/${gslog.fileName}${gslog.fileNameExtension}</file>
-        <encoder>
-            <pattern>${gslog.pattern}</pattern>
-        </encoder>
-    </appender>
-    <appender name='gslog.errorFileAppender' class='ch.qos.logback.core.FileAppender'>
-        <filter class='ch.qos.logback.classic.filter.ThresholdFilter'>
-            <level>warn</level>
-        </filter>
-        <file>${gslog.folderName}/${gslog.fileName}${gslog.errorFileNameExtension}</file>
-        <encoder>
-            <pattern>${gslog.pattern}</pattern>
-        </encoder>
-    </appender>
-    <appender name="gslog.incidentFileAppender" class="ch.qos.logback.core.FileAppender">
-        <file>${gslog.incidentFolderName}/${gslog.fileName}${gslog.incidentFileNameExtension}</file>
-        <encoder>
-            <pattern>${gslog.pattern}</pattern>
-        </encoder>
-    </appender>
+    <if condition='property("gslog.file").contains("true")'>
+        <then>
+            <appender name='gslog.fileAppender' class='ch.qos.logback.core.FileAppender'>
+                <file>${gslog.folderName}/${gslog.fileName}${gslog.fileNameExtension}</file>
+                <encoder>
+                    <pattern>${gslog.pattern}</pattern>
+                </encoder>
+            </appender>
+            <appender name='gslog.errorFileAppender' class='ch.qos.logback.core.FileAppender'>
+                <filter class='ch.qos.logback.classic.filter.ThresholdFilter'>
+                    <level>warn</level>
+                </filter>
+                <file>${gslog.folderName}/${gslog.fileName}${gslog.errorFileNameExtension}</file>
+                <encoder>
+                    <pattern>${gslog.pattern}</pattern>
+                </encoder>
+            </appender>
+            <appender name="gslog.incidentFileAppender" class="ch.qos.logback.core.FileAppender">
+                <file>${gslog.incidentFolderName}/${gslog.fileName}${gslog.incidentFileNameExtension}</file>
+                <encoder>
+                    <pattern>${gslog.pattern}</pattern>
+                </encoder>
+            </appender>
+            <logger level='${gslog.rootLevel}' name="dk.gensam.gaia.util.incident.GSIncident">
+                <!--name="GSIncident">NB Kræver at logger i java navngives som "GSIncident.class.getSimpleName" -->
+                <appender-ref ref="gslog.incidentFileAppender"/>
+            </logger>
+        </then>
+    </if>
 
-    <logger level='${gslog.rootLevel}' name="dk.gensam.gaia.util.incident.GSIncident">
-        <!--name="GSIncident">NB Kræver at logger i java navngives som "GSIncident.class.getSimpleName" -->
-        <appender-ref ref="gslog.incidentFileAppender"/>
-    </logger>
 
     <root level='${gslog.rootLevel}'>
         <if condition='property("gslog.console").contains("true")'>
