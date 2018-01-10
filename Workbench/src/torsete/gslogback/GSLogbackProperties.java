@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.Properties;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
@@ -13,8 +12,8 @@ import java.util.stream.Collectors;
 public enum GSLogbackProperties {
     LOGBACK_CONFIGURATION_FILE("logback.configurationFile"),
     GSLOG_ROOT_LEVEL("gslog.rootLevel"),
-    GSLOG_CONSOLE("gslog.console", v -> v.equals("true") || v.equals("false")),
-    GSLOG_FILE("gslog.file", v -> v.equals("true") || v.equals("false")),
+    GSLOG_CONSOLE("gslog.console"),
+    GSLOG_FILE("gslog.file"),
     GSLOG_DATABASE("gslog.database"),
     GSLOG_ENVIRONMENT("gslog.environment"),
     GSLOG_VERSION("gslog.version"),
@@ -30,31 +29,34 @@ public enum GSLogbackProperties {
     GSLOG_ERROR_FILE_NAME_EXTENSION("gslog.errorFileNameExtension"),
     GSLOG_INCIDENT_FILE_NAME_EXTENSION("gslog.incidentFileNameExtension"),
     GSLOG_PATTERN("gslog.pattern"),
-    GSLOG_HOST_NAME("gslog.hostName", v -> false),
-    GSLOG_CONTEXT_NAME("gslog.contextName", v -> false),
-    GSLOG_FILE_NAME("gslog.fileName", v -> false),
-    GSLOG_FOLDER_NAME("gslog.folderName", v -> false),
-    GSLOG_INCIDENT_FOLDER_NAME("gslog.incidentFolderName", v -> false);
-
+    GSLOG_HOST_NAME("gslog.hostName", false),
+    GSLOG_CONTEXT_NAME("gslog.contextName", false),
+    GSLOG_FILE_NAME("gslog.fileName", false),
+    GSLOG_FOLDER_NAME("gslog.folderName", false),
+    GSLOG_INCIDENT_FOLDER_NAME("gslog.incidentFolderName", false);
 
     private String propertyKey;
-    private Predicate<String> isValidPredicate;
+    private boolean isAssignable;
 
-
-    GSLogbackProperties(String propertyKey, Predicate<String> isValidPredicate) {
+    GSLogbackProperties(String propertyKey, boolean isAssignable) {
         this.propertyKey = propertyKey;
-        this.isValidPredicate = isValidPredicate;
+        this.isAssignable = isAssignable;
     }
 
     GSLogbackProperties(String propertyKey) {
-        this(propertyKey, v -> true);
+        this(propertyKey, true);
+        this.propertyKey = propertyKey;
     }
 
+    public boolean isAssignable() {
+        return isAssignable;
+    }
 
     public GSLogbackProperties setValue(String value) {
-        if (!isValidPredicate.test(value)) {
-            throw new IllegalArgumentException(name() + " kan ikke tildeles værdier '" + value + "'");
+        if (!isAssignable) {
+            throw new IllegalArgumentException(name() + " ('" + getKey() + "') kan ikke tildeles værdier");
         }
+        validateValue(value);
         if (value == null || value.trim().length() == 0) {
             System.clearProperty(propertyKey);
         } else {
@@ -76,8 +78,15 @@ public enum GSLogbackProperties {
         return this;
     }
 
-    public boolean isValid() {
-        return isValidPredicate.test(getValue());
+    public GSLogbackProperties validateValue(String value) {
+        if (!new GSLogbackValidateProperties().apply(this, value)) {
+            throw new IllegalArgumentException(name() + " ('" + getKey() + "') kan ikke tildeles værdien '" + value + "'");
+        }
+        return this;
+    }
+
+    public GSLogbackProperties setDefaultValue() {
+        return setValue(new GSLogbackDefaultProperties().apply(this));
     }
 
     @Override
@@ -85,6 +94,9 @@ public enum GSLogbackProperties {
         return getKey() + "=" + getValue();
     }
 
+    public static void setDefault() {
+        Arrays.stream(values()).forEach(v -> v.setDefaultValue());
+    }
 
     public static File getLogFile() {
         return new File(GSLOG_FOLDER_NAME.getValue() + File.separator + GSLOG_FILE_NAME.getValue() + GSLOG_FILE_NAME_EXTENSION.getValue());
@@ -96,7 +108,6 @@ public enum GSLogbackProperties {
 
     public static void clear() {
         Arrays.stream(values()).forEach(v -> v.clearValue());
-
     }
 
     public static String toStrings() {
@@ -116,7 +127,7 @@ public enum GSLogbackProperties {
 
     public static String toVmArguments() {
         return Arrays.stream(values())
-                .filter(v -> v.isValid())
+                .filter(v -> v.isAssignable())
                 .map(v -> "-D" + v.getKey() + "=" + (v.getValue() == null ? "" : v.getValue()))
                 .collect(Collectors.joining("\n"));
     }

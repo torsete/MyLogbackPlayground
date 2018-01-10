@@ -81,7 +81,7 @@ public class GSLogbackPropertiesTest {
         assertTrue(GSLogbackProperties.values().length >= split.length);
         int j = 0;
         for (int i = 0; i < GSLogbackProperties.values().length; i++) {
-            if (!GSLogbackProperties.values()[i].isValid()) {
+            if (!GSLogbackProperties.values()[i].isAssignable()) {
                 continue;
             }
             assertTrue(split[j].startsWith("-D" + GSLogbackProperties.values()[i].getKey() + "="));
