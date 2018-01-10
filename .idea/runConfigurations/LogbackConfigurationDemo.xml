@@ -6,7 +6,7 @@
         <option name="ENABLED" value="true" />
       </pattern>
     </extension>
-    <option name="MAIN_CLASS_NAME" value="torsete.logback.LogbackConfigurationDemo" />
+    <option name="MAIN_CLASS_NAME" value="torsete.gslogback.LogbackConfigurationDemo" />
     <option name="VM_PARAMETERS" value="-Dlxxogback.configurationFile=Workbench/logbackConfiguration/gslog-configure-T.xml -Dgslog.server=logserver -Dgslog.home=demo -Dgslog.version=vx.xx -Dgslog.environment=1 -Dgslog.system=ADHOC -Dgslog.application=NoApplicationConfigurationDemo" />
     <option name="PROGRAM_PARAMETERS" value="" />
     <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />

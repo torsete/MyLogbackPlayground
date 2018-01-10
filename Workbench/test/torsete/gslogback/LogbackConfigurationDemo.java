@@ -1,24 +1,28 @@
-package torsete.logback;
+package torsete.gslogback;
 
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.core.joran.util.ConfigurationWatchListUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import torsete.gslogback.GSLogbackConfigurator;
-import torsete.gslogback.GSLogbackProperties;
 
 /**
  * Created by Torsten on 28.11.2017.
  */
 public class LogbackConfigurationDemo {
     private final static Logger log = LoggerFactory.getLogger(LogbackConfigurationDemo.class);
+    static GSLogbackTestUtil testUtil;
 
     public static void main(String... args) {
+        testUtil = new GSLogbackTestUtil().open();
+        testUtil.configureInitialLogging("..\\");
+
+
         log.info("HostName=" + GSLogbackProperties.GSLOG_HOST_NAME.getValue());
         log.info("ContextName=" + GSLogbackProperties.GSLOG_CONTEXT_NAME.getValue());
         log.info("Url=" + ConfigurationWatchListUtil.getMainWatchURL((LoggerContext) LoggerFactory.getILoggerFactory()));
 
         new LogbackConfigurationDemo().run();
+        testUtil.close();
     }
 
     private void run() {

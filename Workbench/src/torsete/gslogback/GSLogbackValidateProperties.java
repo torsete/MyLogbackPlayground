@@ -14,7 +14,7 @@ public class GSLogbackValidateProperties implements BiFunction<GSLogbackProperti
                 validator = v -> v.equals("true") || v.equals("false");
                 break;
             default:
-                validator = v -> !v.startsWith("my");
+//                validator = v -> !v.startsWith("my");
 
                 break;
         }

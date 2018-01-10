@@ -25,7 +25,7 @@ public class GSLogbackConfiguratorTest {
     @BeforeClass
     public static void beforeClass() {
         testUtil = new GSLogbackTestUtil().open();
-        testUtil.configureInitialLogging();
+        testUtil.configureInitialLogging("..\\");
         GSLogbackProperties.clear();
         GSLogbackProperties.GSLOG_SYSTEM.setValue("JUnit");
         GSLogbackProperties.GSLOG_APPLICATION.setValue(GSLogbackConfiguratorTest.class.getSimpleName());

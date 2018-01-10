@@ -21,13 +21,13 @@ public class GSLogbackTestUtil {
         ediTestHelper.flushEdiTestDirectory();
     }
 
-    public void configureInitialLogging() {
+    public void configureInitialLogging(String foldername) {
         System.out.println(GSLogbackProperties.toStringsAll());
         String xml =
                 "<configuration scan='true' scanPeriod='500'> <!-- in millis -->\n" +
                         "    <property name='gslog.console' scope='system' value='true'/>\n" +
                         "    <property name='gslog.file' scope='system' value='false'/>\n" +
-                        "    <include file='..\\AppConfig\\systemtest\\config\\gslogback/gslog-configuration.xml'/>\n" +
+                        "    <include file='" + foldername + "AppConfig\\systemtest\\config\\gslogback/gslog-configuration.xml'/>\n" +
                         "</configuration>";
         GSXMLContext gsxmlContext = new GSXMLContext();
         gsxmlContext.parseString(xml);

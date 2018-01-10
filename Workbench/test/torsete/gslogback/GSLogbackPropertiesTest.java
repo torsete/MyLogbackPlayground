@@ -22,7 +22,7 @@ public class GSLogbackPropertiesTest {
     @BeforeClass
     public static void beforeClass() {
         testUtil = new GSLogbackTestUtil().open();
-        testUtil.configureInitialLogging();
+        testUtil.configureInitialLogging("..\\");
     }
 
     @AfterClass
