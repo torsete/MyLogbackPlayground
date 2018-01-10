@@ -1,3 +1,5 @@
-<configuration scan='true' scanPeriod='500' debug='true'> <!-- in millis -->
-    <include file='Workbench/logbackConfiguration/gslog-configuration.xml'/>
+<configuration scan='true' scanPeriod='500'> <!-- in millis -->
+    <property name='gslog.console' scope='system' value='true'/>
+    <property name='gslog.file' scope='system' value='true'/>
+    <include file='AppConfig\systemtest\config\gslogback/gslog-configuration.xml'/>
 </configuration>

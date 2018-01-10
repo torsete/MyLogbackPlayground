@@ -1,8 +1,6 @@
 package torsete.gslogback;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,6 +16,19 @@ public class GSLogbackPropertiesTest {
     private static Logger log = LoggerFactory.getLogger(GSLogbackPropertiesTest.class);
     private int testCount;
     private Properties defaultSettings;
+
+    private static GSLogbackTestUtil testUtil;
+
+    @BeforeClass
+    public static void beforeClass() {
+        testUtil = new GSLogbackTestUtil().open();
+        testUtil.configureInitialLogging();
+    }
+
+    @AfterClass
+    public static void afterClass() {
+        testUtil.close();
+    }
 
     @Before
     public void before() {

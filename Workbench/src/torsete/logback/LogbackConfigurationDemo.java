@@ -23,10 +23,10 @@ public class LogbackConfigurationDemo {
 
     private void run() {
 //        runPlain();
-//        runLongPlain();
+        runLongPlain();
 //        runLongPlainWithScan();
 //        runConfigurationWithUserName();
-        runWithConfiguration();
+//        runWithConfiguration();
     }
 
     private void runPlain() {

@@ -20,13 +20,22 @@ public class GSLogbackConfiguratorTest {
     private GSLogbackConfigurator configurator;
     @Rule
     public TestName testName = new TestName();
+    static GSLogbackTestUtil testUtil;
 
     @BeforeClass
     public static void beforeClass() {
+        testUtil = new GSLogbackTestUtil().open();
+        testUtil.configureInitialLogging();
         GSLogbackProperties.clear();
         GSLogbackProperties.GSLOG_SYSTEM.setValue("JUnit");
         GSLogbackProperties.GSLOG_APPLICATION.setValue(GSLogbackConfiguratorTest.class.getSimpleName());
         initialConfigurationUrl = new GSLogbackConfigurator().reset().getCurrentConfigurationUrl();
+    }
+
+
+    @AfterClass
+    public static void afterClass() {
+        testUtil.close();
     }
 
     @Before

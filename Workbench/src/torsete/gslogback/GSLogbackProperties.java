@@ -108,7 +108,7 @@ public enum GSLogbackProperties {
     public static String toStringsAll() {
         return toStrings() + "\n"
                 + System.getProperties().entrySet().stream()
-                .filter(e -> e.getKey().toString().startsWith("gslog.") || e.getKey().toString().startsWith("logback."))
+//                .filter(e -> e.getKey().toString().startsWith("gslog.") || e.getKey().toString().startsWith("logback."))
                 .filter(e -> get(e.getKey().toString()) == null)
                 .map(e -> "Unknown property: " + e.getKey() + "=" + (e.getValue() == null ? "" : e.getValue()))
                 .collect(Collectors.joining("\n"));

@@ -1,5 +1,5 @@
 <configuration scan='true' scanPeriod='500'> <!-- in millis -->
     <property name='gslog.console' scope='system' value='true'/>
     <property name='gslog.file' scope='system' value='false'/>
-    <include file='logbackConfiguration/gslog-configuration.xml'/>
+    <include file='..\AppConfig\systemtest\config\gslogback/gslog-configuration.xml'/>
 </configuration>

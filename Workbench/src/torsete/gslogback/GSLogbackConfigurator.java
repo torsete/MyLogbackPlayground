@@ -43,7 +43,7 @@ public class GSLogbackConfigurator {
     void init() {
         logListeners = new ArrayList<>();
         StatusPrinter.setPrintStream(new StatusPrinterPrintStream());
-        setReportToSystemOut(false);
+        setReportToSystemOut(true);
     }
 
 
